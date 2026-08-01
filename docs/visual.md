@@ -16,7 +16,7 @@ Saint Paul, MN &nbsp;&nbsp;|&nbsp;&nbsp; 507-299-0445 &nbsp;&nbsp;|&nbsp;&nbsp; 
 
 ## Summary
 
-I build platforms where streaming infrastructure disappears behind a self-service button. At Optum, the technology arm of UnitedHealth Group, I'm one of the deepest technical owners of a Kafka-as-a-Service platform built on custom Kubernetes operators in Go, a CRD-driven internal provisioning system (PRM/KRM), Terraformed GCP cloud infrastructure, and a NextJS micro-frontend embedded in HCP Console. 1,000+ nodes, 750+ high-throughput clusters, five nines, zero data loss. Through resilient data pipelines, clean self-service UI, or robust SRE - I'm always seeking a challenge. Most recently I co-led the full-stack delivery of Warpstream-based cluster provisioning, projected to reduce annual Kafka infrastructure costs by approximately 80% for our largest GCP customers. Always willing to work with anyone to make technology work better for everyone!
+I build platforms where streaming infrastructure disappears behind a self-service button. At Optum, the technology arm of UnitedHealth Group, I'm one of the deepest technical owners of a Kafka-as-a-Service platform built on custom Kubernetes operators in Go, a CRD-driven internal provisioning system (PRM/KRM), Terraformed GCP cloud infrastructure, and a NextJS micro-frontend embedded in HCP Console. 4,000+ Kafka brokers, 750+ high-throughput clusters, 100 billion+ messages per day, five nines, zero data loss. Through resilient data pipelines, clean self-service UI, or robust SRE - I'm always seeking a challenge. Most recently I co-led the full-stack delivery of Warpstream-based cluster provisioning, projected to reduce annual Kafka infrastructure costs by approximately 80% for our largest GCP customers. Always willing to work with anyone to make technology work better for everyone!
 
 ---
 
@@ -62,7 +62,7 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 
 - **DevOps and CI/CD:** Own and maintain CI/CD pipeline configuration for platform services using GitHub Actions, Docker-based build pipelines, JFrog Artifactory, and HashiCorp Vault secret injection; enforce DevOps best practices across the team for container image management, deployment automation, and environment promotion workflows.
 
-- **SRE and Mentorship:** Serve on-call across a fleet of **1,000+ nodes** with zero customer data loss in production across the platform's history; mentor junior engineers on distributed systems design, stream processing patterns, operator framework development, and Go best practices. Coordinate across engineering, product, and security stakeholders. Author technical documentation and runbooks used across the Kafka Platform organization.
+- **SRE and Mentorship:** Serve on-call across a fleet of **4,000+ Kafka brokers** with zero customer data loss in production across the platform's history; mentor junior engineers on distributed systems design, stream processing patterns, operator framework development, and Go best practices. Coordinate across engineering, product, and security stakeholders. Author technical documentation and runbooks used across the Kafka Platform organization.
 
 - **Early Careers:** Volunteer for Optum Early Careers, running technical bootcamp lectures and labs each summer and conducting candidate interviews each fall and spring.
 

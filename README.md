@@ -12,7 +12,7 @@ A portable toolkit for **macOS machine setup** and **resume automation**. Fork i
 
 ## Table of Contents
 
-- [ckopp-env](#ckopp-env)
+- [rkopp-env](#rkopp-env)
   - [Table of Contents](#table-of-contents)
   - [Quick Start](#quick-start)
   - [Repository Structure](#repository-structure)
