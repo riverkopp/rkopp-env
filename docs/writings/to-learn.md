@@ -245,5 +245,46 @@
 - SOC 2 compliance from day one: audit logging, access controls, evidence collection
 - Infrastructure decisions with no existing playbook or team norms
 
+### Gaps - Akamai Senior Software Engineer (Zero Trust Security Group)
+
+#### Zero Trust Architecture and Products
+- ZTNA (Zero Trust Network Access): architecture, policy enforcement points, trust evaluation
+- SDP (Software-Defined Perimeter): controller, gateway, client architecture; SPA (Single Packet Authorization)
+- Micro-segmentation: identity-based segmentation, east-west traffic policies, least-privilege network access
+- Zero Trust product development: how ZT principles translate into shipped product features vs infrastructure posture
+- Akamai Enterprise Application Access / Enterprise Threat Protector: competitor landscape awareness
+
+#### FedRAMP Compliance
+- NIST 800-53 control families: access control, audit, identification/authentication, system integrity
+- FedRAMP authorization process: JAB vs agency path, P-ATO, ATO, continuous monitoring
+- FedRAMP documentation: System Security Plan (SSP), Plan of Action and Milestones (POA&M), security assessment reports
+- Continuous monitoring requirements: vulnerability scanning cadence, configuration management, incident response
+- FedRAMP vs HIPAA/healthcare compliance: mapping transferable concepts and identifying gaps
+
+#### Modern Authorization and Identity Management
+- OIDC flows: authorization code, PKCE, implicit, hybrid; ID tokens vs access tokens
+- OAuth2: client credentials, token exchange, refresh token rotation, scopes, resource indicators
+- SAML 2.0: SP-initiated vs IdP-initiated SSO, assertion parsing, metadata exchange
+- RBAC/ABAC policy engines: OPA (Open Policy Agent), Cedar, Casbin; policy-as-code patterns
+- Identity federation: multi-IdP, cross-domain trust, SCIM provisioning
+- Session management, token revocation, and zero-trust session evaluation
+
+#### Government and Defense Sector
+- Security clearance process: Secret clearance investigation, SF-86, adjudication timeline
+- Government software development lifecycle: RMF (Risk Management Framework), Authority to Operate
+- ITAR/EAR awareness for defense-adjacent software
+- Working with government customers: contracting, compliance documentation, audit readiness
+
+#### Caching Mechanisms
+- Redis: data structures, pub/sub, clustering, persistence, eviction policies
+- Memcached: use cases vs Redis, consistent hashing, slab allocation
+- CDN-level caching: cache invalidation strategies, edge caching, TTL management
+- Application-level caching patterns: cache-aside, write-through, write-behind
+
+#### Edge Computing
+- Edge deployment patterns: edge nodes, fog computing, disconnected/intermittent connectivity
+- Tactical network integration: bandwidth-constrained environments, store-and-forward
+- Edge-to-cloud synchronization: eventual consistency, conflict resolution at the edge
+
 ### Other
 - Web scraping (Selenium, etc)
