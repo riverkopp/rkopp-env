@@ -6,6 +6,9 @@ tap "derailed/k9s", trusted: { formulae: ["k9s"] }
 tap "goreleaser/tap", trusted: true
 tap "hashicorp/tap"
 tap "homebrew/core"
+tap "macpaw/taps", trusted: true
+tap "oven-sh/bun", trusted: true
+tap "powershell/tap", trusted: true
 tap "libkrun/krun", trusted: true
 tap "macpaw/taps", trusted: true
 tap "oven-sh/bun", trusted: true
@@ -201,6 +204,10 @@ brew "confluentinc/tap/cli", trusted: true
 brew "hashicorp/tap/terraform", trusted: true
 # Vault
 brew "hashicorp/tap/vault", trusted: true
+# WarpStream Kafka-compatible agent
+brew "warpstreamlabs/tap/warpstream", trusted: true
+# Clipboard extension app
+cask "clipy"
 # CLI tool to start Linux KVM or macOS HVF VMs using the libkrun
 brew "libkrun/krun/krunkit"
 # Manage lightweight VMs created from OCI images
@@ -219,6 +226,8 @@ cask "codex"
 cask "github"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Tool to prevent the system from going into sleep mode
+cask "keepingyouawake"
 # Menu bar manager
 cask "jordanbaird-ice"
 # Tool to prevent the system from going into sleep mode
@@ -235,6 +244,8 @@ cask "raycast"
 cask "rectangle"
 # Tool to reverse the direction of scrolling
 cask "scroll-reverser"
+# Open-source code editor
+cask "visual-studio-code"
 # Development environment
 cask "vagrant"
 cask "vagrant-manager"
