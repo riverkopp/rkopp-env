@@ -20,3 +20,5 @@ winfresh:  ## install VSCode extensions on Windows (usage: make winfresh)
 
 winsync:  ## regenerate VSCode extension install lists on Windows (usage: make winsync)
 	pwsh -File ./hack/win_generate_install_lists.ps1
+pushsync:  ## runs git commands to add, commit, and push changes up with optional commit message (usage make pushsync MSG="my message")
+	git add . && git commit -m 'make sync: $(MSG)' && git push

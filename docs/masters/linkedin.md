@@ -19,7 +19,7 @@ Platform Engineer | Kafka-as-a-Service | Kubernetes | Go | Terraform | Full-Stac
 
 ## About
 
-I build platforms where streaming infrastructure disappears behind a self-service button. I'm one of the deepest technical owners of our Kafka platform; custom k8s operators, Terraformed GCP, and a NextJS frontend serving thousands of clients. 1,000+ nodes, 750+ clusters, five nines, zero data loss. Shipped Warpstream @ Optum for ~80% infra cost reduction. Always willing to work with anyone to make technology work better for everyone!
+I build platforms where streaming infrastructure disappears behind a self-service button. I'm one of the deepest technical owners of our Kafka platform; custom k8s operators, Terraformed GCP, and a NextJS frontend serving thousands of clients. 4,000+ Kafka brokers, 750+ clusters, 100 billion+ messages per day, five nines, zero data loss. Shipped Warpstream @ Optum for ~80% infra cost reduction. Always willing to work with anyone to make technology work better for everyone!
 
 ---
 
@@ -34,7 +34,7 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 #### Description (1994 / 2000 chars)
 
 ```
-One of the deepest technical owners of Optum's Kafka-as-a-Service platform: 750+ high-throughput clusters, 1,000+ nodes, five nines reliability.
+One of the deepest technical owners of Optum's Kafka-as-a-Service platform: 4,000+ Kafka brokers, 750+ high-throughput clusters, 100 billion+ messages per day, five nines reliability.
 
 KRM/PRM Technical Lead: SME of custom Kubernetes operators (Go) forming a two-tier control plane for automated streaming infra deployment across GCP. 500+ clusters in multi-tenant environments.
 
