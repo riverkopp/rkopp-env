@@ -41,7 +41,7 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 
 ## Experience
 
-### Senior Software Engineer
+### Lead Software Engineer
 Optum, UnitedHealth Group | Saint Paul, MN | Sep 2022 - Present
 
 **Kafka and Infrastructure Platform, HCP Console**

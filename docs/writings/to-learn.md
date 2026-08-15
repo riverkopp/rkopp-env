@@ -245,6 +245,29 @@
 - SOC 2 compliance from day one: audit logging, access controls, evidence collection
 - Infrastructure decisions with no existing playbook or team norms
 
+### Gaps - Morgan Stanley / Parametric Lead Software Engineer
+
+#### Java / Spring Boot
+- Java as primary production language: daily fluency beyond academic/secondary usage
+- Spring Boot: dependency injection, auto-configuration, Spring Data JPA, Spring Security, actuator endpoints
+- Spring ecosystem: Spring Cloud, Spring Batch, Spring Integration for enterprise workflows
+- Hibernate / JPA: ORM patterns, lazy loading, N+1 queries, caching strategies, schema migrations
+- JVM tuning: GC selection and tuning, heap sizing, thread pool configuration, profiling with JFR/async-profiler
+
+#### AWS (see also BeyondTrust and other gaps)
+- AWS cloud-native architecture: ECS/EKS, Lambda, API Gateway, SQS/SNS, DynamoDB, RDS, S3
+- AWS IaC: CloudFormation, CDK vs Terraform on AWS
+- AWS networking and security: VPC, security groups, IAM policies, Secrets Manager, KMS
+
+#### Financial Services Domain
+- Middle- and back-office operations: reconciliation, accounting, settlements systems
+- Financial instrument lifecycle: trade execution, clearing, settlement, custodial workflows
+- Regulatory compliance in financial services: SOX, SEC reporting, audit trails
+- Investment management operations: portfolio accounting, NAV calculation, corporate actions
+
+#### .NET (nice-to-have per JD)
+- C# fundamentals: async/await, LINQ, dependency injection
+- .NET ecosystem: ASP.NET Core, Entity Framework
 ### Gaps - Akamai Senior Software Engineer (Zero Trust Security Group)
 
 #### Zero Trust Architecture and Products

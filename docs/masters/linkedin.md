@@ -27,7 +27,7 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 
 ---
 
-### Senior Software Engineer
+### Lead Software Engineer
 
 **Optum, UnitedHealth Group** | Saint Paul, MN | Sep 2022 - Present
 

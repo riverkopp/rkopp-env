@@ -8,7 +8,7 @@ pdf_options:
 ---
 
 # Caleb Kopp
-**Senior Software Engineer &middot; Kafka & Kubernetes Infrastructure**
+**Lead Software Engineer &middot; Kafka & Kubernetes Infrastructure**
 
 Saint Paul, MN &nbsp;&nbsp;|&nbsp;&nbsp; 507-299-0445 &nbsp;&nbsp;|&nbsp;&nbsp; caleb.m.kopp@outlook.com &nbsp;&nbsp;|&nbsp;&nbsp; linkedin.com/in/calebmkopp &nbsp;&nbsp;|&nbsp;&nbsp; Open to remote
 
@@ -37,7 +37,7 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 
 ## Experience
 
-### Senior Software Engineer at Optum (UnitedHealth Group)
+### Lead Software Engineer at Optum (UnitedHealth Group)
 **Kafka & Infrastructure Platform &middot; HCP Console** &nbsp;&nbsp;&nbsp;&nbsp; *Sep 2022 - Present*
 
 - **Kubernetes Resource Manager (KRM) SME:** Serve as one of the primary technical owners and deepest SMEs of KRM, a federated network of Kubernetes operators written in Go forming a two-tier control plane for automated deployment and configuration of streaming infrastructure at production scale. The upper control layer connects to and interfaces with external APIs, CSP provisioning hooks, and Optum-internal resource registration and billing services. A secondary operator layer, running in a separate Kubernetes cluster, generates and owns all concrete Kubernetes resources and links them back to the meta-resources established above. The PRM agent layer and KRM operators share a common **Elasticsearch cluster as a single source of truth**, ensuring full state recovery and resource utilization visibility if either system becomes unavailable. The platform manages **500+ individual Kafka clusters** across multi-tenant GCP environments, handling high-throughput, low-latency data ingestion workloads at enterprise production scale.
