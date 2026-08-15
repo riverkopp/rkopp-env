@@ -9,6 +9,12 @@ tap "homebrew/core"
 tap "macpaw/taps", trusted: true
 tap "oven-sh/bun", trusted: true
 tap "powershell/tap", trusted: true
+tap "libkrun/krun", trusted: true
+tap "macpaw/taps", trusted: true
+tap "oven-sh/bun", trusted: true
+tap "powershell/tap", trusted: true
+tap "riverkopp/local-asdf"
+tap "riverkopp/local-go"
 tap "romkatv/powerlevel10k", trusted: true
 tap "tilt-dev/tap", trusted: true
 tap "warpstreamlabs/tap", trusted: true
@@ -36,12 +42,18 @@ brew "bento"
 brew "bottom"
 # Core application library for C
 brew "glib"
+# Load/unload environment variables based on $PWD
+brew "direnv"
+# Platform keystore credential helper for Docker
+brew "docker-credential-helper"
 # Modern, maintained replacement for ls
 brew "eza"
 # Like neofetch, but much faster because written mostly in C
 brew "fastfetch"
 # Play, record, convert, and stream select audio and video codecs
 brew "ffmpeg"
+# Lightweight scripting language for querying databases
+brew "flux"
 # Command-line fuzzy finder written in Go
 brew "fzf"
 # GitHub command-line tool
@@ -58,6 +70,10 @@ brew "glances"
 brew "gnu-sed"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
+# Task is a task runner/build tool that aims to be simpler and easier to use
+brew "go-task"
+# Open source programming language to build simple/reliable/efficient software
+brew "go@1.22"
 # Language server for the Go language
 brew "gopls"
 # Terminal based graphical activity monitor inspired by gtop and vtop
@@ -98,16 +114,16 @@ brew "openjpeg"
 brew "libheif"
 # Generic library support script
 brew "libtool"
+# Linux virtual machines
+brew "lima"
 # Easily convert Marp Markdown files into static HTML/CSS, PDF, PPT and images
 brew "marp-cli"
-# Replacement for ls, cp and other commands for object storage
-brew "minio-mc"
 # SMTP client that can be used as an SMTP plugin for Mutt
 brew "msmtp"
 # Manage multiple Node.js versions
 brew "nvm"
-# Development kit for the Java programming language
-brew "openjdk@11"
+# Oracle Cloud Infrastructure CLI
+brew "oci-cli"
 # Development kit for the Java programming language
 brew "openjdk@17"
 # Open Visual Inference And Optimization toolkit for AI inference
@@ -116,6 +132,8 @@ brew "openvino"
 brew "pipx"
 # Package compiler and linker metadata toolkit
 brew "pkgconf"
+# Tool for managing OCI containers and pods
+brew "podman"
 # Alternative to docker-compose using podman
 brew "podman-compose"
 # Python package management tool
@@ -130,6 +148,14 @@ brew "powershell"
 brew "pyenv"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.10"
+# Unified tool to manage your Rancher server
+brew "rancher-cli"
+# CLI proxy to minimize LLM token consumption
+brew "rtk"
+# Powerful, clean, object-oriented scripting language
+brew "ruby"
+# SOcket CAT: netcat on steroids
+brew "socat"
 # Editor of encrypted files
 brew "sops"
 # Non-interactive SSH password auth
@@ -156,6 +182,8 @@ brew "uv"
 brew "vitetris"
 # Executes a program periodically, showing output fullscreen
 brew "watch"
+# Internet file retriever
+brew "wget"
 # Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
@@ -172,18 +200,44 @@ brew "zsh"
 brew "zsh-completions"
 # CLI for Confluent Cloud and Confluent Platform
 brew "confluentinc/tap/cli", trusted: true
+# Terraform
+brew "hashicorp/tap/terraform", trusted: true
 # Vault
 brew "hashicorp/tap/vault", trusted: true
 # WarpStream Kafka-compatible agent
 brew "warpstreamlabs/tap/warpstream", trusted: true
 # Clipboard extension app
 cask "clipy"
+# CLI tool to start Linux KVM or macOS HVF VMs using the libkrun
+brew "libkrun/krun/krunkit"
+# Manage lightweight VMs created from OCI images
+brew "libkrun/krun/krunvm"
+# Extendable version manager with support for Ruby, Node.js, Erlang & more
+brew "riverkopp/local-asdf/asdf@0.15.0", trusted: true
+# WarpStream Kafka-compatible agent
+brew "warpstreamlabs/tap/warpstream", trusted: true
+# All-in-one installer for the tools you need to manage your Chef infrastructure
+cask "chef-workstation"
+# Clipboard extension app
+cask "clipy"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
 # Desktop client for GitHub repositories
 cask "github"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
 # Tool to prevent the system from going into sleep mode
 cask "keepingyouawake"
+# Menu bar manager
+cask "jordanbaird-ice"
+# Tool to prevent the system from going into sleep mode
+cask "keepingyouawake"
+# Simple application that will prevent iTunes or Apple Music from launching
+cask "notunes"
+# Identity verification provider
+cask "okta-verify"
+# Kubernetes and container management on the desktop
+cask "rancher"
 # Control your tools with a few keystrokes
 cask "raycast"
 # Move and resize windows using keyboard shortcuts or snap areas
@@ -192,6 +246,17 @@ cask "rectangle"
 cask "scroll-reverser"
 # Open-source code editor
 cask "visual-studio-code"
+# Development environment
+cask "vagrant"
+cask "vagrant-manager"
+# Virtualiser for arm64 hardware
+cask "virtualbox"
+# Open-source code editor
+cask "visual-studio-code"
+# Web browser
+cask "waterfox"
+# Multiplayer code editor
+cask "zed"
 vscode "4ops.terraform"
 vscode "aaron-bond.better-comments"
 vscode "albert.tabout"
@@ -261,3 +326,4 @@ go "github.com/google/go-containerregistry/cmd/gcrane"
 go "golang.org/x/tools/gopls"
 go "golang.org/x/vuln/cmd/govulncheck"
 go "honnef.co/go/tools/cmd/staticcheck"
+npm "corepack"
