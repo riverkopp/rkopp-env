@@ -41,8 +41,15 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 
 ## Experience
 
+### Principal Site Reliability Developer
+Oracle | Saint Paul, MN | Jul 2026 - Present
+
+- Contract work for the federal government.
+
+---
+
 ### Lead Software Engineer
-Optum, UnitedHealth Group | Saint Paul, MN | Sep 2022 - Present
+Optum, UnitedHealth Group | Saint Paul, MN | Sep 2022 - Jul 2026
 
 **Kafka and Infrastructure Platform, HCP Console**
 
