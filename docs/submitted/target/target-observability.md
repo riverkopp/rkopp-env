@@ -25,7 +25,7 @@ Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; caleb.m.kopp@outlook.com
 
 #### Experience
 
-##### Senior Software Engineer - Optum, UnitedHealth Group
+##### Lead Software Engineer - Optum, UnitedHealth Group
 *Sep 2022 - Present* &nbsp;|&nbsp; Saint Paul, MN
 
 - Serve as one of the primary technical owners of a Go streaming platform managing 4,000+ Kafka brokers across 500+ clusters in multitenant GCP environments processing 100 billion+ messages per day, built on custom Kubernetes operators forming a two tier distributed control plane with five nines reliability and zero customer data loss.

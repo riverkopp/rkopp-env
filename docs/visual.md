@@ -37,8 +37,15 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 
 ## Experience
 
+### Principal Site Reliability Developer at Oracle
+**Federal Government Contract** &nbsp;&nbsp;&nbsp;&nbsp; *Jul 2026 - Present*
+
+- Contract work for the federal government.
+
+---
+
 ### Lead Software Engineer at Optum (UnitedHealth Group)
-**Kafka & Infrastructure Platform &middot; HCP Console** &nbsp;&nbsp;&nbsp;&nbsp; *Sep 2022 - Present*
+**Kafka & Infrastructure Platform &middot; HCP Console** &nbsp;&nbsp;&nbsp;&nbsp; *Sep 2022 - Jul 2026*
 
 - **Kubernetes Resource Manager (KRM) SME:** Serve as one of the primary technical owners and deepest SMEs of KRM, a federated network of Kubernetes operators written in Go forming a two-tier control plane for automated deployment and configuration of streaming infrastructure at production scale. The upper control layer connects to and interfaces with external APIs, CSP provisioning hooks, and Optum-internal resource registration and billing services. A secondary operator layer, running in a separate Kubernetes cluster, generates and owns all concrete Kubernetes resources and links them back to the meta-resources established above. The PRM agent layer and KRM operators share a common **Elasticsearch cluster as a single source of truth**, ensuring full state recovery and resource utilization visibility if either system becomes unavailable. The platform manages **500+ individual Kafka clusters** across multi-tenant GCP environments, handling high-throughput, low-latency data ingestion workloads at enterprise production scale.
 

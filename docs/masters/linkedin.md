@@ -27,9 +27,21 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 
 ---
 
+### Principal Site Reliability Developer
+
+**Oracle** | Saint Paul, MN | Jul 2026 - Present
+
+#### Description
+
+```
+Contract work for the federal government.
+```
+
+---
+
 ### Lead Software Engineer
 
-**Optum, UnitedHealth Group** | Saint Paul, MN | Sep 2022 - Present
+**Optum, UnitedHealth Group** | Saint Paul, MN | Sep 2022 - Jul 2026
 
 #### Description (1994 / 2000 chars)
 

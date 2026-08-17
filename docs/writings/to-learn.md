@@ -325,5 +325,61 @@
 - Enterprise-wide influence: driving standards adoption across thousands of engineers
 - Strategic planning: multi-year technical roadmaps, build-vs-buy decisions at enterprise scale
 
+### Gaps - Sony PlayStation Senior SWE (Platform Data Reliability and Automation)
+
+#### Caching Platforms (Redis and ElastiCache)
+- Redis data structures: strings, hashes, lists, sets, sorted sets, streams; when each fits a caching workload
+- Redis persistence: RDB snapshots vs AOF, tradeoffs for durability and restart time
+- Redis Cluster: hash slots, resharding, replica failover, cross-slot operation limits
+- Eviction policies and memory management: maxmemory policies, LRU vs LFU, key expiration mechanics
+- Redis Sentinel vs Cluster for high availability; automated failover behavior
+- AWS ElastiCache: managed Redis/Memcached, parameter groups, backup/restore, multi-AZ failover
+- Caching patterns: cache-aside, write-through, write-behind, thundering herd and stampede protection
+
+#### Aerospike
+- Aerospike architecture: namespaces, sets, bins, records; hybrid memory model (index in RAM, data on SSD)
+- Clustering and data distribution: partition map, smart client, rack awareness
+- Strong consistency mode vs available mode; roster management
+- Operational tasks: cold vs fast restart, defragmentation, migrations, capacity planning
+- Aerospike tooling: asadm, aql, backup/restore utilities
+
+#### Cassandra (beyond early-career troubleshooting)
+- Data modeling: partition key design, clustering columns, query-first modeling, avoiding large partitions
+- Compaction strategies: STCS, LCS, TWCS; when each applies and how to tune them
+- Repair operations: full vs incremental repair, anti-entropy, Reaper, repair scheduling at scale
+- Consistency levels and tunable consistency; read repair, hinted handoff
+- Backup and recovery: snapshots, incremental backups, restore procedures, point-in-time recovery
+- Performance tuning: JVM/GC tuning, bloom filters, key/row caching, tombstone management
+
+#### AWS (see also BeyondTrust, Staff Go Engineer, and limitless gaps)
+- AWS MSK: managed Kafka differences from self-hosted, MSK Connect, MSK Serverless, IAM auth for Kafka
+- DynamoDB: partition/sort key design, GSIs and LSIs, capacity modes, DynamoDB Streams, single-table design
+- Core services depth: EC2, EKS, S3, IAM, VPC, CloudWatch, CloudFormation/CDK
+- AWS vs GCP mental model mapping: EKS/GKE, S3/GCS, IAM differences, networking primitives
+
+#### Ansible
+- Playbook authoring, roles, and inventory management; idempotent configuration
+- Ansible vs Terraform: configuration management vs provisioning, when to combine them
+- Ansible for stateful data platform lifecycle: rolling upgrades, config drift remediation
+- Ansible Vault, dynamic inventories, and running playbooks from CI
+
+#### SLI/SLO and Error Budget Practice
+- Defining SLIs for data platforms: availability, latency, durability, freshness indicators
+- SLO setting and error budget policy: burn rate alerting, multi-window multi-burn-rate patterns
+- Distinguishing SLAs (contractual) from SLOs (internal targets) in practice
+- SLO tooling: Sloth, OpenSLO, Nobl9; implementing error budgets in Prometheus/Grafana
+
+#### Self-Healing and Predictive Automation
+- Automated remediation: closing the loop from alert to action, safety guardrails and blast radius limits
+- Predictive scaling: forecasting load, proactive capacity adjustment vs reactive HPA
+- Anomaly detection on metrics: statistical baselines, seasonality handling, alert noise reduction
+- AI-driven operations: LLM-assisted incident summarization, automated root cause analysis, runbook automation
+- Applying GenAI to infrastructure automation and developer productivity beyond the AI Dojo RAG project
+
+#### Linux and Storage Internals
+- Linux internals for stateful workloads: page cache, I/O schedulers, cgroups, memory pressure behavior
+- Storage systems: block vs object vs file, IOPS and throughput characteristics, filesystem tuning for databases
+- Networking internals: TCP tuning, connection limits, kernel network stack behavior under load
+
 ### Other
 - Web scraping (Selenium, etc)
