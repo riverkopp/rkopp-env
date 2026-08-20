@@ -40,7 +40,7 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 ### Principal Site Reliability Developer at Oracle
 **Federal Government Contract** &nbsp;&nbsp;&nbsp;&nbsp; *Jul 2026 - Present*
 
-- Contract work for the federal government.
+- Federal contract work with enterprise Oracle Big Data Service (BDS).
 
 ---
 

@@ -34,7 +34,7 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 #### Description
 
 ```
-Contract work for the federal government.
+Federal contract work with enterprise Oracle Big Data Service (BDS).
 ```
 
 ---
