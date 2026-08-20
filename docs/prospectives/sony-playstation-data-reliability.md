@@ -7,7 +7,7 @@ pdf_options:
     right: 12mm
 ---
 
-### Caleb Kopp - Principal Site Reliability Developer
+### River Kopp - Principal Site Reliability Developer
 
 Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; caleb.m.kopp@outlook.com &nbsp;|&nbsp; linkedin.com/in/calebmkopp
 
