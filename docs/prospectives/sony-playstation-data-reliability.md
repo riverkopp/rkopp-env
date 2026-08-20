@@ -32,7 +32,7 @@ Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; caleb.m.kopp@outlook.com
 
 - Federal contract work with enterprise Oracle Big Data Service (BDS).
 
-##### Lead Software Engineer - Optum, UnitedHealth Group
+##### Senior Software Engineer - Optum, UnitedHealth Group
 *Sep 2022 - Jul 2026* &nbsp;|&nbsp; Saint Paul, MN
 
 - Primary technical owner of a two-tier control plane of custom Go operators automating provisioning, scaling, and lifecycle management of stateful data workloads on Kubernetes: 4,000+ Kafka brokers across 500+ clusters, 100 billion+ messages per day, five-nines availability, zero customer data loss. Elasticsearch backed the control plane as its shared state store and single source of truth, guaranteeing full state recovery if either layer went down.

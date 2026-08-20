@@ -48,7 +48,7 @@ Oracle | Saint Paul, MN | Jul 2026 - Present
 
 ---
 
-### Lead Software Engineer
+### Senior Software Engineer
 Optum, UnitedHealth Group | Saint Paul, MN | Sep 2022 - Jul 2026
 
 **Kafka and Infrastructure Platform, HCP Console**

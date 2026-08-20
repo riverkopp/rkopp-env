@@ -39,7 +39,7 @@ Federal contract work with enterprise Oracle Big Data Service (BDS).
 
 ---
 
-### Lead Software Engineer
+### Senior Software Engineer
 
 **Optum, UnitedHealth Group** | Saint Paul, MN | Sep 2022 - Jul 2026
 
