@@ -9,7 +9,7 @@ Personal identity, experience narratives, technical profile, and career context 
 - **docs/masters/ats.md** - ATS-optimized master resume (source of truth for all resume content).
 - **docs/masters/TAILORING_rules.md** - Person-specific tailoring rules: which sections exist, how much room each earns, and the order to cut them in when a resume runs long. Everything in this file that names a real employer or project lives there, not here.
 - **docs/masters/linkedin.md** - LinkedIn profile content.
-- **docs/visual.md** - Visual/rich master resume.
+- **docs/masters/visual.md** - Visual/rich master resume.
 
 When generating tailored resumes or cover letters, read PERSONAL_details.md and ats.md as primary source material. When generating interview prep, also read STAR_questions.md.
 
@@ -18,7 +18,7 @@ When generating tailored resumes or cover letters, read PERSONAL_details.md and 
 ## Resume and Cover Letter Rules
 
 ### Terminology
-- "Add to the masters" means docs/masters/ats.md and docs/visual.md. If the content is also relevant as initial context for future resume/cover letter generation (e.g., narratives, facts, identity details), also update docs/masters/PERSONAL_details.md.
+- "Add to the masters" means docs/masters/ats.md and docs/masters/visual.md. If the content is also relevant as initial context for future resume/cover letter generation (e.g., narratives, facts, identity details), also update docs/masters/PERSONAL_details.md.
 
 ### Working Rules
 - Prefer make targets over calling scripts directly.
@@ -206,10 +206,9 @@ Always start at Small margins (6mm/12mm). Regenerate and recheck the page count 
 
 ### PDF Generation and Naming
 - Local PDF output path is docs/pdf/.
-- File naming convention is hardcoded in scripts/workflows as:
-	- `<firstname>-<lastname>-resume-<name>.pdf`
-- CI currently converts only top-level docs/*.md files.
-	- Files under docs/masters/, docs/submitted/, and docs/prospectives/ are local-build only.
+- File naming is `<PDF_SLUG>-resume-<name>.pdf`, where `PDF_SLUG` comes from `profile.env` at the repo root. Do not hardcode a name in the scripts or the workflow.
+- CI converts only the documents listed in `CI_PUBLISH_DOCS` in `profile.env`.
+	- Everything else under docs/ is a local build only.
 
 ### PDF Delivery
 When generating resumes or cover letters in a Claude Code chat session, always send the generated PDF to the user in the chat after generation using the SendUserFile tool.

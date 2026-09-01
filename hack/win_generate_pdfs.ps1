@@ -35,9 +35,24 @@ if ($args.Count -gt 0) {
     $files = @(Get-ChildItem docs/*.md | ForEach-Object { $_.FullName })
 }
 
+# Identity lives in profile.env at the repo root
+$profilePath = Join-Path $PSScriptRoot "..\profile.env"
+if (-not (Test-Path $profilePath)) {
+    Write-Error "profile.env not found at $profilePath"
+    exit 1
+}
+$pdfSlug = $null
+foreach ($line in Get-Content $profilePath) {
+    if ($line -match '^\s*PDF_SLUG\s*=\s*(.+?)\s*$') { $pdfSlug = $Matches[1].Trim('"').Trim("'") }
+}
+if (-not $pdfSlug) {
+    Write-Error "PDF_SLUG not set in profile.env"
+    exit 1
+}
+
 foreach ($f in $files) {
     $base = [System.IO.Path]::GetFileNameWithoutExtension($f)
-    $outName = "river-kopp-resume-$base.pdf"
+    $outName = "$pdfSlug-resume-$base.pdf"
     Write-Host "Converting $f -> docs/pdf/$outName"
     npx --yes md-to-pdf $f
     $generatedPdf = $f -replace '\.md$', '.pdf'
