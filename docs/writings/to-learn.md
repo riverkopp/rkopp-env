@@ -381,5 +381,51 @@
 - Storage systems: block vs object vs file, IOPS and throughput characteristics, filesystem tuning for databases
 - Networking internals: TCP tuning, connection limits, kernel network stack behavior under load
 
+### Gaps - Oracle OCI Streaming, Principal Platform Software Engineer (IC4)
+
+#### Java (listed as a required skill; Kafka's broker code is Java/Scala)
+- Java as a daily production language rather than an academic or secondary one
+- JVM internals: GC selection and tuning, heap sizing, memory model, thread safety
+- Concurrency primitives: ExecutorService, CompletableFuture, virtual threads (Project Loom)
+- Modern Java: records, sealed classes, pattern matching
+- Build tooling: Gradle and Maven, which the Kafka ecosystem uses
+- Reading and contributing to the Kafka codebase itself
+
+#### Kafka Internals (building the service, not operating it)
+- Controller internals, partition leadership election, ISR mechanics
+- KRaft consensus: quorum controller, metadata topics, Raft log
+- Replication protocol at depth: leader epoch, log truncation, high watermark advancement
+- Exactly-once semantics and transactional APIs
+- Consumer group rebalancing protocols: eager vs cooperative sticky, static membership
+- Log segment internals: indexing, compaction implementation, tiered storage
+- Multi-tenant Kafka as a managed cloud service: tenant isolation, quota enforcement, noisy neighbor control
+
+#### Databases, NoSQL, and Distributed Persistence (a minimum qualification here)
+- Distributed persistence fundamentals: replication, consistency models, durability guarantees
+- Storage engines: LSM trees vs B-trees, write amplification, compaction tradeoffs
+- NoSQL breadth beyond Elasticsearch and early Cassandra exposure
+- Query optimization, indexing strategies, and data modeling for scale
+
+#### Computer Science and Systems Fundamentals
+- Interview-level data structures and algorithms: trees, graphs, dynamic programming, complexity analysis
+- Operating systems: process and thread scheduling, memory management, virtual memory, file systems
+- Unix-like internals: page cache, I/O schedulers, cgroups, syscall behavior under load
+
+#### Networking Protocols
+- TCP/IP at protocol depth: handshake, congestion control, window scaling, tuning for throughput
+- HTTP/1.1 vs HTTP/2 semantics, connection reuse, head-of-line blocking
+- SSL/TLS handshake internals beyond certificate lifecycle management
+- Standard network architectures: load balancing tiers, proxies, service discovery
+
+#### SLOs and Error Budgets
+- Defining SLIs and SLOs for a managed data service rather than working to SLA thresholds
+- Error budget policy: burn rate alerting, multi-window multi-burn-rate patterns
+- Shared observability baselines across multiple services and teams
+
+#### OCI Specifics
+- OCI core services and how they map to GCP and Azure equivalents
+- OCI Streaming service architecture and its managed Kafka offering
+- OCI networking, IAM, and tenancy model
+
 ### Other
 - Web scraping (Selenium, etc)
