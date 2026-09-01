@@ -170,6 +170,7 @@ Only `pdf_options.margin` is used. Three margin tiers exist: Large (15mm/20mm, d
 | `help` | `make help` | Print all available targets with descriptions |
 | `fresh` | `make fresh` | Bootstrap a new machine: install Homebrew, brew packages, and VSCode extensions |
 | `sync` | `make sync` | Capture current machine state into `lists/`, update and upgrade all packages |
+| `init` | `make init` | Bootstrap a fork: reset masters to templates, clear personal content |
 | `docs` | `make docs` | Convert all `docs/*.md` to PDF (macOS/Linux) |
 | `docs` | `make docs FILE=visual` | Convert a single file to PDF (macOS/Linux) |
 | `windocs` | `make windocs` | Convert all `docs/*.md` to PDF (Windows/PowerShell) |
@@ -237,6 +238,21 @@ make winsync
 **Note:** Chocolatey/winget package list automation is not yet implemented. System packages (Node.js, Make, etc.) must be installed manually via the setup steps above. Only VSCode extension management is automated on Windows at this time.
 
 ## Forking This Repo for Your Own Use
+
+### Quick Start
+
+```sh
+git clone <your-fork-url> && cd <your-fork>
+make init
+```
+
+`make init` resets the masters to the templates in `docs/templates/`, resets
+`profile.env`, clears the previous owner's submitted resumes, drafts, writings, and
+generated PDFs, and repoints the README badges at your fork's remote. It prints what
+it will delete and prompts for confirmation first; `make init FORCE=1` skips the
+prompt for scripted setup.
+
+Then work through the steps below, which `make init` has already scaffolded for you.
 
 ### Resume Generation
 1. **Fill in your personal context** -- this is how Copilot learns who you are:

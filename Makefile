@@ -1,7 +1,10 @@
-.PHONY: sync help fresh docs windocs winfresh winsync
+.PHONY: sync help fresh init docs windocs winfresh winsync
 
 help:  ## this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
+
+init:  ## bootstrap a fork: reset masters to templates and clear personal content (usage: make init [FORCE=1])
+	./hack/init.sh
 
 sync:  ## update Brewfile and ./vsc_install_list.sh
 	./hack/generate_install_lists.sh
@@ -20,5 +23,6 @@ winfresh:  ## install VSCode extensions on Windows (usage: make winfresh)
 
 winsync:  ## regenerate VSCode extension install lists on Windows (usage: make winsync)
 	pwsh -File ./hack/win_generate_install_lists.ps1
+
 pushsync:  ## runs git commands to add, commit, and push changes up with optional commit message (usage make pushsync MSG="my message")
 	git add . && git commit -m 'make sync: $(MSG)' && git push

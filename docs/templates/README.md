@@ -2,7 +2,12 @@
 
 Skeletons for the four files under `docs/masters/`, plus a starter `profile.env`.
 
-If you forked this repo, set yourself up with:
+If you forked this repo, run `make init` from the repo root. It copies these over
+`docs/masters/`, resets `profile.env`, clears the previous owner's submitted
+resumes and drafts, and repoints the README badges at your fork. It prompts before
+deleting anything; `make init FORCE=1` skips the prompt.
+
+To do it by hand instead:
 
 ```sh
 cp docs/templates/profile.env.example profile.env
