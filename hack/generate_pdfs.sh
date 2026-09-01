@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Identity lives in profile.env at the repo root
+# shellcheck source=/dev/null
+. "$(dirname "$0")/../profile.env"
+: "${PDF_SLUG:?PDF_SLUG not set in profile.env}"
+
 mkdir -p docs/pdf
 
 if [[ -n "$1" ]]; then
@@ -16,9 +21,9 @@ fi
 
 for f in "${files[@]}"; do
   base=$(basename "$f" .md)
-  echo "Converting $f → docs/pdf/river-kopp-resume-${base}.pdf"
+  echo "Converting $f → docs/pdf/${PDF_SLUG}-resume-${base}.pdf"
   npx --yes md-to-pdf "$f"
-  mv "${f%.md}.pdf" "docs/pdf/river-kopp-resume-${base}.pdf"
+  mv "${f%.md}.pdf" "docs/pdf/${PDF_SLUG}-resume-${base}.pdf"
 done
 
 echo "Done:"

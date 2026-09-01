@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'docs/*.md'
+      - 'docs/masters/*.md'
+      - 'profile.env'
   workflow_dispatch:
 
 jobs:
@@ -20,11 +21,16 @@ jobs:
 
       - name: Convert markdown to PDF
         run: |
+          # shellcheck source=/dev/null
+          . ./profile.env
+          : "${PDF_SLUG:?PDF_SLUG not set in profile.env}"
+          : "${CI_PUBLISH_DOCS:?CI_PUBLISH_DOCS not set in profile.env}"
+
           mkdir -p docs/pdf
-          for f in docs/*.md; do
+          for f in $CI_PUBLISH_DOCS; do
             base=$(basename "$f" .md)
             npx --yes md-to-pdf "$f"
-            mv "${f%.md}.pdf" "docs/pdf/river-kopp-resume-${base}.pdf"
+            mv "${f%.md}.pdf" "docs/pdf/${PDF_SLUG}-resume-${base}.pdf"
           done
           echo "Generated PDFs:"
           ls -lah docs/pdf/
