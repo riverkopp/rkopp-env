@@ -4,9 +4,9 @@ A portable toolkit for **macOS machine setup** and **resume automation**. Fork i
 
 ---
 
-[![Resume to PDF Release](https://github.com/CalebmKopp/ckopp-env/actions/workflows/docs-to-pdf.yml/badge.svg)](https://github.com/CalebmKopp/ckopp-env/actions/workflows/docs-to-pdf.yml)
-[![Brewfile/VSCode Extension Bundle and Release](https://github.com/CalebmKopp/ckopp-env/actions/workflows/bundle-to-release.yml/badge.svg)](https://github.com/CalebmKopp/ckopp-env/actions/workflows/bundle-to-release.yml)
-[![GitHub Actions Security Analysis with zizmor 🌈](https://github.com/CalebmKopp/ckopp-env/actions/workflows/zizmor.yml/badge.svg)](https://github.com/CalebmKopp/ckopp-env/actions/workflows/zizmor.yml)
+[![Resume to PDF Release](https://github.com/riverkopp/rkopp-env/actions/workflows/docs-to-pdf.yml/badge.svg)](https://github.com/riverkopp/rkopp-env/actions/workflows/docs-to-pdf.yml)
+[![Brewfile/VSCode Extension Bundle and Release](https://github.com/riverkopp/rkopp-env/actions/workflows/bundle-to-release.yml/badge.svg)](https://github.com/riverkopp/rkopp-env/actions/workflows/bundle-to-release.yml)
+[![GitHub Actions Security Analysis with zizmor 🌈](https://github.com/riverkopp/rkopp-env/actions/workflows/zizmor.yml/badge.svg)](https://github.com/riverkopp/rkopp-env/actions/workflows/zizmor.yml)
 
 ---
 
@@ -37,8 +37,8 @@ A portable toolkit for **macOS machine setup** and **resume automation**. Fork i
 
 ```sh
 # Clone the repo
-git clone https://github.com/CalebmKopp/ckopp-env.git
-cd ckopp-env
+git clone https://github.com/riverkopp/rkopp-env.git
+cd rkopp-env
 
 # Install everything (Homebrew, brew packages, VSCode extensions)
 make fresh
@@ -52,7 +52,7 @@ If `make` is not recognized, run `./hack/fresh_install.sh` directly (or install 
 ## Repository Structure
 
 ```
-ckopp-env/
+rkopp-env/
 ├── .github/
 │   ├── copilot-instructions.md  # Copilot context: formatting rules, workflows, conventions
 │   └── workflows/               # CI/CD pipelines
@@ -138,7 +138,7 @@ make docs
 make docs FILE=visual
 ```
 
-Output lands in `docs/pdf/caleb-kopp-resume-{name}.pdf`.
+Output lands in `docs/pdf/river-kopp-resume-{name}.pdf`.
 
 **Prerequisite:** `npx` must be available (install Node.js via `nvm` or the Brewfile).
 
@@ -238,9 +238,13 @@ make winsync
 1. **Fill in your personal context** -- this is how Copilot learns who you are:
    - **`docs/masters/PERSONAL_details.md`** -- Replace with your own identity, experience narratives, technical profile, certifications, and career context. Brain-dump everything: who you are, what you work on, key projects, quantified achievements, technical skills, leadership style. The more detail you provide, the better Copilot can tailor resumes and cover letters for you.
    - **`docs/masters/STAR_questions.md`** -- Write your own STAR-format interview answers. Use the existing structure (Situation/Task/Action/Result) as a template and fill in your career stories.
+   - **`docs/masters/TAILORING_rules.md`** -- Replace with your own experience inventory and compression ladder: which roles you have, how many bullets each earns, and what to cut first when a resume runs long. `.github/copilot-instructions.md` is generic and defers to this file for anything person-specific, so this is the one place your career shape needs to be described. A skeleton is at the bottom of the file.
 2. **Build your master resume** -- Generate and iterate on `docs/masters/ats.md` using your PERSONAL_details.md as source material. This becomes a large (but not overfitted) context block that Copilot draws from when generating tailored resumes. Expand it as you think of more experience, projects, and skills.
 3. **Build out your Linkedin Profile** -- Use `docs/masters/linkedin.md` as a structured reference for updating your LinkedIn profile; job descriptions can only be 2000 characters or so, and your headline ideally works best if it's short enough that people can scroll down and read the whole thing without expanding the box.
-4. **Rename the PDF output** -- The script `hack/generate_pdfs.sh` hardcodes the output filename as `caleb-kopp-resume-{name}.pdf`. Change `caleb-kopp` to your own name in that script so your PDFs are named correctly.
+4. **Rename the PDF output** -- The filename slug `river-kopp` is hardcoded in **three** places and all three must match, or local and CI builds will produce differently named files:
+   - `hack/generate_pdfs.sh` (two occurrences)
+   - `hack/win_generate_pdfs.ps1`
+   - `.github/workflows/docs-to-pdf.yml`
 5. **Set up the `RESUME_PAT` secret** -- in your fork's GitHub Settings > Secrets if you want the CI/CD release workflows to work
 6. **Give an LLM access** -- This can either be, running on your local machine where you cloned the repo, or, via something like `https://claude.ai/code` web UI where you just give it the `RESUME_PAT` and it can read repo contents/make PRs for you
 7. **Give JD's via prompt** -- However you interact with the LLM, the steps are as follows
@@ -260,7 +264,7 @@ make winsync
 
 ### Tips for Colleagues
 - Run `make sync` periodically to keep your Brewfile current as you install new tools
-- The copilot instructions (`.github/copilot-instructions.md`) contain formatting rules, workflows, and conventions that are reusable as-is. Your personal details live separately in `docs/masters/PERSONAL_details.md`.
+- The copilot instructions (`.github/copilot-instructions.md`) contain formatting rules, workflows, and conventions that are reusable as-is, with no employer or project names in them. Everything person-specific lives in `docs/masters/`: narrative in `PERSONAL_details.md`, interview stories in `STAR_questions.md`, and the tailoring/compression rules in `TAILORING_rules.md`.
 - You can delete the `docs/submitted/` and `docs/prospectives/` directories and start fresh
 - Keep your `ats.md` as the plain-text master and derive tailored versions from it
 - As you generate resumes and do interviews, naturally the `docs/writings/to-learn.md` will grow in size, with gaps between your current resume information and whatever job description you've fed the bot. Keep this in might, and periodically manually check the `to-learn.md` file for things you do want to learn, or things you DO have experience with and want to bring back to `PERSONAL_details.md`

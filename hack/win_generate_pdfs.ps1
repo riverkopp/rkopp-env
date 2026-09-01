@@ -37,7 +37,7 @@ if ($args.Count -gt 0) {
 
 foreach ($f in $files) {
     $base = [System.IO.Path]::GetFileNameWithoutExtension($f)
-    $outName = "caleb-kopp-resume-$base.pdf"
+    $outName = "river-kopp-resume-$base.pdf"
     Write-Host "Converting $f -> docs/pdf/$outName"
     npx --yes md-to-pdf $f
     $generatedPdf = $f -replace '\.md$', '.pdf'

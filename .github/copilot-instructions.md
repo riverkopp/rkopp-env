@@ -1,4 +1,4 @@
-# Copilot Instructions for ckopp-env
+# Copilot Instructions
 
 ## Personal Context
 
@@ -7,6 +7,7 @@ Personal identity, experience narratives, technical profile, and career context 
 - **docs/masters/PERSONAL_details.md** - Who I am, what I work on, key narratives, technical identity, certifications, leadership style, and tailoring guidance.
 - **docs/masters/STAR_questions.md** - STAR-format interview answers with detailed Situation/Task/Action/Result for key career stories.
 - **docs/masters/ats.md** - ATS-optimized master resume (source of truth for all resume content).
+- **docs/masters/TAILORING_rules.md** - Person-specific tailoring rules: which sections exist, how much room each earns, and the order to cut them in when a resume runs long. Everything in this file that names a real employer or project lives there, not here.
 - **docs/masters/linkedin.md** - LinkedIn profile content.
 - **docs/visual.md** - Visual/rich master resume.
 
@@ -117,7 +118,7 @@ When tailoring, skills categories are renamed, reordered, and pruned to mirror t
 
 ### Link Format
 - Inline links only: `[text](url)`. Never reference-style.
-- IEEE publication is linked in most resumes.
+- Publications, if any, are linked per docs/masters/TAILORING_rules.md.
 - LinkedIn is a markdown link only in ats.md. All other files use plain text.
 - Cover letters contain zero links.
 
@@ -194,23 +195,14 @@ When generating the tailored resume from masters:
 4. Rename, reorder, and prune Skills categories to mirror the job posting. Front-load the most relevant terms within each category.
 5. Reword bullets for culture fit - echo the JD's language and priorities while preserving factual accuracy.
 6. Highlight experience that directly maps to JD requirements; de-emphasize or drop bullets with no JD relevance.
-7. Reduce Senior role from 12+ bullets to 5-7. Drop bold lead-in labels and inline bold metrics.
-8. Fold Warpstream featured section into a single compound bullet.
-9. Drop Org Initiative Leadership as a standalone section; fold key initiatives into regular bullets if relevant.
-10. Compress SE role to 1-2 bullets by merging related content.
-11. Drop Intern and Sogeti roles entirely.
-12. Compress Projects to 1 bullet or drop entirely (roll IEEE into Education line).
-13. Compress Education to a single inline line.
+7. Drop bold lead-in labels and inline bold metrics from every bullet.
+8. Apply the person-specific content rules in docs/masters/TAILORING_rules.md, which say how many bullets each role earns, which sections fold together, and which roles drop entirely.
+9. Compress Education to a single inline line.
 
 #### One-Page Compression Priority
-Always start at Small margins (6mm/12mm). Apply these steps in order if content still exceeds one page, regenerating and rechecking after each:
-1. If a cover letter is also being generated, drop Summary section. If no cover letter, keep Summary and continue to step 2.
-2. Drop Intern + Sogeti roles.
-3. Compress SE role bullets.
-4. Fold Warpstream into a single bullet.
-5. Drop Org Initiative Leadership section.
-6. Drop Projects section (move IEEE to Education line).
-7. As a last resort, set `pdf_options.scale` (see Scale above). Use this instead of steps 1-6 only when the remaining content is all load-bearing for the target role, such as when an extra experience entry has been broken out and every bullet still earns its place.
+Always start at Small margins (6mm/12mm). Regenerate and recheck the page count after each step.
+1. Work down the Compression Ladder in docs/masters/TAILORING_rules.md, which lists what to cut, in what order, for this person's specific history.
+2. As a last resort, set `pdf_options.scale` (see Scale above). Reach for it only when the ladder is exhausted and the remaining content is all load-bearing for the target role, such as when an extra experience entry has been broken out and every bullet still earns its place.
 
 ### PDF Generation and Naming
 - Local PDF output path is docs/pdf/.
@@ -220,7 +212,7 @@ Always start at Small margins (6mm/12mm). Apply these steps in order if content 
 	- Files under docs/masters/, docs/submitted/, and docs/prospectives/ are local-build only.
 
 ### PDF Delivery
-When generating resumes or cover letters in a Claude Code chat session, always send the generated PDF to Caleb in the chat after generation using the SendUserFile tool.
+When generating resumes or cover letters in a Claude Code chat session, always send the generated PDF to the user in the chat after generation using the SendUserFile tool.
 
 ### Known Resume Constraints
 - All resumes for roles should fit on one page. If content exceeds one page, apply the compression tactics in the specified order. The Masters can exceed one page, but all submitted/prospective resumes should be one page.

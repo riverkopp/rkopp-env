@@ -24,7 +24,7 @@ jobs:
           for f in docs/*.md; do
             base=$(basename "$f" .md)
             npx --yes md-to-pdf "$f"
-            mv "${f%.md}.pdf" "docs/pdf/caleb-kopp-resume-${base}.pdf"
+            mv "${f%.md}.pdf" "docs/pdf/river-kopp-resume-${base}.pdf"
           done
           echo "Generated PDFs:"
           ls -lah docs/pdf/
