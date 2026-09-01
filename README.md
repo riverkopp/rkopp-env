@@ -59,15 +59,19 @@ rkopp-env/
 │       ├── docs-to-pdf.yml      # Markdown resume -> PDF GitHub Release
 │       ├── bundle-to-release.yml # Brewfile + VSCode list -> GitHub Release
 │       └── zizmor.yml            # GitHub Actions security scanning
+├── profile.env                   # Identity: PDF slug, contact details, CI publish list
 ├── docs/                         # All resume content
-│   ├── visual.md                 # Visual/rich resume (tables, formatting)
 │   ├── masters/                  # Source-of-truth documents
 │   │   ├── PERSONAL_details.md   # Personal identity, narratives, technical profile (Copilot context)
 │   │   ├── STAR_questions.md     # STAR-format interview answers
+│   │   ├── TAILORING_rules.md    # Person-specific tailoring + compression ladder
 │   │   ├── ats.md                # ATS-optimized master resume
-│   │   └── linkedin.md           # LinkedIn profile content
+│   │   ├── linkedin.md           # LinkedIn profile content
+│   │   └── visual.md             # Visual/rich resume (tables, formatting)
+│   ├── templates/                # Skeletons to copy over masters/ when forking
 │   ├── submitted/                # Company-specific submitted resumes & cover letters
 │   ├── prospectives/             # Draft resumes for prospective applications
+│   ├── writings/                 # to-learn.md gap tracking and other notes
 │   └── pdf/                      # Generated PDFs (gitignored, built locally or via CI)
 ├── hack/                         # Shell scripts backing the Makefile
 │   ├── fresh_install.sh          # Full machine bootstrap (macOS)
@@ -123,7 +127,7 @@ Resumes are written in Markdown with YAML frontmatter controlling PDF layout (ma
 | Directory | Purpose |
 |---|---|
 | `docs/masters/` | Source-of-truth documents. `PERSONAL_details.md` holds your identity, narratives, and technical profile for Copilot context. `STAR_questions.md` holds STAR-format interview answers. `ats.md` is keyword-dense, plain-text friendly for applicant tracking systems. `linkedin.md` is structured for LinkedIn profile copy-paste. |
-| `docs/visual.md` | Richly formatted resume with tables, HTML entities, and horizontal rules -- designed for human readers and PDF output. |
+| `docs/masters/visual.md` | Richly formatted resume with tables, HTML entities, and horizontal rules -- designed for human readers and PDF output. |
 | `docs/submitted/` | Tailored resumes and cover letters for specific companies you've applied to. |
 | `docs/prospectives/` | Draft resumes for companies you're considering applying to. |
 | `docs/pdf/` | Generated PDF output. Gitignored -- build locally or download from GitHub Releases. |
@@ -135,10 +139,10 @@ Resumes are written in Markdown with YAML frontmatter controlling PDF layout (ma
 make docs
 
 # Generate a PDF for a specific file (by name, without extension)
-make docs FILE=visual
+make docs FILE=masters/visual
 ```
 
-Output lands in `docs/pdf/river-kopp-resume-{name}.pdf`.
+Output lands in `docs/pdf/{PDF_SLUG}-resume-{name}.pdf`, where `PDF_SLUG` comes from `profile.env`.
 
 **Prerequisite:** `npx` must be available (install Node.js via `nvm` or the Brewfile).
 
@@ -166,6 +170,7 @@ Only `pdf_options.margin` is used. Three margin tiers exist: Large (15mm/20mm, d
 | `help` | `make help` | Print all available targets with descriptions |
 | `fresh` | `make fresh` | Bootstrap a new machine: install Homebrew, brew packages, and VSCode extensions |
 | `sync` | `make sync` | Capture current machine state into `lists/`, update and upgrade all packages |
+| `init` | `make init` | Bootstrap a fork: reset masters to templates, clear personal content |
 | `docs` | `make docs` | Convert all `docs/*.md` to PDF (macOS/Linux) |
 | `docs` | `make docs FILE=visual` | Convert a single file to PDF (macOS/Linux) |
 | `windocs` | `make windocs` | Convert all `docs/*.md` to PDF (Windows/PowerShell) |
@@ -179,11 +184,11 @@ All workflows trigger on pushes to `main` and can also be run manually via `work
 
 | Workflow | Trigger | What It Does |
 |---|---|---|
-| `docs-to-pdf.yml` | Changes to `docs/*.md` | Converts top-level `docs/*.md` to PDF and creates a GitHub Release (tag: `YY.MM.DD.HHMM-pdf`) |
+| `docs-to-pdf.yml` | Changes to `docs/masters/*.md` or `profile.env` | Converts top-level `docs/*.md` to PDF and creates a GitHub Release (tag: `YY.MM.DD.HHMM-pdf`) |
 | `bundle-to-release.yml` | Changes to `lists/` | Creates a GitHub Release with the Brewfile and VSCode install script (tag: `YY.MM.DD.HHMM-bundle`) |
 | `zizmor.yml` | Every push and PR | Runs GitHub Actions security analysis with [zizmor](https://github.com/woodruffw/zizmor) |
 
-**Note:** The PDF workflow only processes `docs/*.md` at the top level (currently just `visual.md`). Subdirectory files (`masters/`, `submitted/`, `prospectives/`) are only built locally via `make docs`.
+**Note:** The PDF workflow processes only the documents listed in `CI_PUBLISH_DOCS` in `profile.env` (currently just `docs/masters/visual.md`). Subdirectory files (`masters/`, `submitted/`, `prospectives/`) are only built locally via `make docs`.
 
 Both release workflows require a `RESUME_PAT` repository secret with permission to create releases.
 
@@ -234,6 +239,21 @@ make winsync
 
 ## Forking This Repo for Your Own Use
 
+### Quick Start
+
+```sh
+git clone <your-fork-url> && cd <your-fork>
+make init
+```
+
+`make init` resets the masters to the templates in `docs/templates/`, resets
+`profile.env`, clears the previous owner's submitted resumes, drafts, writings, and
+generated PDFs, and repoints the README badges at your fork's remote. It prints what
+it will delete and prompts for confirmation first; `make init FORCE=1` skips the
+prompt for scripted setup.
+
+Then work through the steps below, which `make init` has already scaffolded for you.
+
 ### Resume Generation
 1. **Fill in your personal context** -- this is how Copilot learns who you are:
    - **`docs/masters/PERSONAL_details.md`** -- Replace with your own identity, experience narratives, technical profile, certifications, and career context. Brain-dump everything: who you are, what you work on, key projects, quantified achievements, technical skills, leadership style. The more detail you provide, the better Copilot can tailor resumes and cover letters for you.
@@ -241,10 +261,8 @@ make winsync
    - **`docs/masters/TAILORING_rules.md`** -- Replace with your own experience inventory and compression ladder: which roles you have, how many bullets each earns, and what to cut first when a resume runs long. `.github/copilot-instructions.md` is generic and defers to this file for anything person-specific, so this is the one place your career shape needs to be described. A skeleton is at the bottom of the file.
 2. **Build your master resume** -- Generate and iterate on `docs/masters/ats.md` using your PERSONAL_details.md as source material. This becomes a large (but not overfitted) context block that Copilot draws from when generating tailored resumes. Expand it as you think of more experience, projects, and skills.
 3. **Build out your Linkedin Profile** -- Use `docs/masters/linkedin.md` as a structured reference for updating your LinkedIn profile; job descriptions can only be 2000 characters or so, and your headline ideally works best if it's short enough that people can scroll down and read the whole thing without expanding the box.
-4. **Rename the PDF output** -- The filename slug `river-kopp` is hardcoded in **three** places and all three must match, or local and CI builds will produce differently named files:
-   - `hack/generate_pdfs.sh` (two occurrences)
-   - `hack/win_generate_pdfs.ps1`
-   - `.github/workflows/docs-to-pdf.yml`
+4. **Fill in `profile.env`** -- Copy `docs/templates/profile.env.example` to `profile.env` at the repo root and set `PDF_SLUG`, your contact details, and `CI_PUBLISH_DOCS`. This is the only place identity is configured; the local scripts and the CI workflow all read it, so PDFs are named consistently everywhere.
+   - `make init` (see Quick Start above) creates this file for you from the example.
 5. **Set up the `RESUME_PAT` secret** -- in your fork's GitHub Settings > Secrets if you want the CI/CD release workflows to work
 6. **Give an LLM access** -- This can either be, running on your local machine where you cloned the repo, or, via something like `https://claude.ai/code` web UI where you just give it the `RESUME_PAT` and it can read repo contents/make PRs for you
 7. **Give JD's via prompt** -- However you interact with the LLM, the steps are as follows
