@@ -139,10 +139,10 @@ Resumes are written in Markdown with YAML frontmatter controlling PDF layout (ma
 make docs
 
 # Generate a PDF for a specific file (by name, without extension)
-make docs FILE=visual
+make docs FILE=masters/visual
 ```
 
-Output lands in `docs/pdf/river-kopp-resume-{name}.pdf`.
+Output lands in `docs/pdf/{PDF_SLUG}-resume-{name}.pdf`, where `PDF_SLUG` comes from `profile.env`.
 
 **Prerequisite:** `npx` must be available (install Node.js via `nvm` or the Brewfile).
 
@@ -262,7 +262,7 @@ Then work through the steps below, which `make init` has already scaffolded for 
 2. **Build your master resume** -- Generate and iterate on `docs/masters/ats.md` using your PERSONAL_details.md as source material. This becomes a large (but not overfitted) context block that Copilot draws from when generating tailored resumes. Expand it as you think of more experience, projects, and skills.
 3. **Build out your Linkedin Profile** -- Use `docs/masters/linkedin.md` as a structured reference for updating your LinkedIn profile; job descriptions can only be 2000 characters or so, and your headline ideally works best if it's short enough that people can scroll down and read the whole thing without expanding the box.
 4. **Fill in `profile.env`** -- Copy `docs/templates/profile.env.example` to `profile.env` at the repo root and set `PDF_SLUG`, your contact details, and `CI_PUBLISH_DOCS`. This is the only place identity is configured; the local scripts and the CI workflow all read it, so PDFs are named consistently everywhere.
-   - Faster start: copy the skeletons over the masters with the snippet in `docs/templates/README.md`, then fill in `PERSONAL_details.md` and `TAILORING_rules.md`.
+   - `make init` (see Quick Start above) creates this file for you from the example.
 5. **Set up the `RESUME_PAT` secret** -- in your fork's GitHub Settings > Secrets if you want the CI/CD release workflows to work
 6. **Give an LLM access** -- This can either be, running on your local machine where you cloned the repo, or, via something like `https://claude.ai/code` web UI where you just give it the `RESUME_PAT` and it can read repo contents/make PRs for you
 7. **Give JD's via prompt** -- However you interact with the LLM, the steps are as follows
