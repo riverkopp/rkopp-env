@@ -9,13 +9,13 @@ pdf_options:
 
 # Caleb Kopp
 
-Saint Paul, MN | 507-299-0445 | caleb.m.kopp@outlook.com | [linkedin.com/in/calebmkopp](linkedin.com/in/calebmkopp)
+Saint Paul, MN | 507-299-0445 | followtheriversong@proton.me | [linkedin.com/in/calebmkopp](linkedin.com/in/calebmkopp)
 
 ---
 
 ## Summary
 
-I build platforms where streaming infrastructure disappears behind a self-service button. At Optum, the technology arm of UnitedHealth Group, I'm one of the deepest technical owners of a Kafka-as-a-Service platform built on custom Kubernetes operators in Go, a CRD-driven internal provisioning system (PRM/KRM), Terraformed GCP cloud infrastructure, and a NextJS micro-frontend embedded in HCP Console. 4,000+ Kafka brokers, 750+ high-throughput clusters, 100 billion+ messages per day, five nines, zero data loss. Through resilient data pipelines, clean self-service UI, or robust SRE - I'm always seeking a challenge. Most recently I co-led the full-stack delivery of Warpstream-based cluster provisioning, projected to reduce annual Kafka infrastructure costs by approximately 80% for our largest GCP customers. Always willing to work with anyone to make technology work better for everyone!
+I build platforms where streaming infrastructure disappears behind a self-service button. At Optum, the technology arm of UnitedHealth Group, I'm one of the deepest technical owners of a Kafka-as-a-Service platform built on custom Kubernetes operators in Go, a CRD-driven internal provisioning system (PRM/KRM), Terraformed GCP cloud infrastructure, and a NextJS micro-frontend embedded in HCP Console. 4,000+ Kafka brokers, 800+ high-throughput clusters, 100 billion+ messages per day, five nines, zero data loss. Through resilient data pipelines, clean self-service UI, or robust SRE - I'm always seeking a challenge. Most recently I co-led the full-stack delivery of Warpstream-based cluster provisioning, projected to reduce annual Kafka infrastructure costs by approximately 80% for our largest GCP customers. Always willing to work with anyone to make technology work better for everyone!
 
 ---
 
@@ -44,16 +44,16 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 ### Principal Site Reliability Developer
 Oracle | Saint Paul, MN | Jul 2026 - Present
 
-- Contract work for the federal government.
+- Federal contract work with enterprise Oracle Big Data Service (BDS).
 
 ---
 
-### Lead Software Engineer
+### Senior Software Engineer
 Optum, UnitedHealth Group | Saint Paul, MN | Sep 2022 - Jul 2026
 
 **Kafka and Infrastructure Platform, HCP Console**
 
-- **Kubernetes Resource Manager (KRM) SME:** Serve as one of the primary technical owners and deepest SMEs of KRM, a federated network of Kubernetes operators written in Go forming a two-tier control plane for automated deployment and configuration of streaming infrastructure at production scale. The upper control layer connects to and interfaces with external APIs, CSP provisioning hooks, and Optum-internal resource registration and billing services. A secondary operator layer, running in a separate Kubernetes cluster, generates and owns all concrete Kubernetes resources and links them back to the meta-resources established above. The PRM agent layer and KRM operators share a common Elasticsearch cluster as a single source of truth, ensuring full state recovery and resource utilization visibility if either system becomes unavailable. The platform manages 4,000+ Kafka brokers across 500+ individual clusters in multi-tenant GCP environments, handling 100 billion+ messages per day with high-throughput, low-latency data ingestion workloads at enterprise production scale.
+- **Kubernetes Resource Manager (KRM) SME:** Serve as one of the primary technical owners and deepest SMEs of KRM, a federated network of Kubernetes operators written in Go forming a two-tier control plane for automated deployment and configuration of streaming infrastructure at production scale. The upper control layer connects to and interfaces with external APIs, CSP provisioning hooks, and Optum-internal resource registration and billing services. A secondary operator layer, running in a separate Kubernetes cluster, generates and owns all concrete Kubernetes resources and links them back to the meta-resources established above. The PRM agent layer and KRM operators share a common Elasticsearch cluster as a single source of truth, ensuring full state recovery and resource utilization visibility if either system becomes unavailable. The platform manages 4,000+ Kafka brokers across 800+ individual clusters in multi-tenant GCP environments, handling 100 billion+ messages per day with high-throughput, low-latency data ingestion workloads at enterprise production scale.
 
 - **Platform Resource Manager (PRM):** Contribute to the PRM agent layer, an internal self-service developer platform and framework analogous to Spotify Backstage, through which all data orchestration and provisioning workflows are expressed as typed API contracts (Kinds and Objects) that decouple the product experience from operator implementation details. Enable self-service cloud deployment of streaming infrastructure across Google Cloud Platform.
 

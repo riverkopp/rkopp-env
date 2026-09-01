@@ -8,18 +8,18 @@ pdf_options:
 ---
 
 # LinkedIn Profile
-## Caleb Kopp
+## River Kopp
 ---
 
 ## Headline
 
-Platform Engineer | Kafka-as-a-Service | Kubernetes | Go | Terraform | Full-Stack Delivery
+Platform Engineer | Kafka & Kubernetes Infrastructure | Go, Terraform, GCP | Full-Stack Delivery
 
 ---
 
 ## About
 
-I build platforms where streaming infrastructure disappears behind a self-service button. I'm one of the deepest technical owners of our Kafka platform; custom k8s operators, Terraformed GCP, and a NextJS frontend serving thousands of clients. 4,000+ Kafka brokers, 750+ clusters, 100 billion+ messages per day, five nines, zero data loss. Shipped Warpstream @ Optum for ~80% infra cost reduction. Always willing to work with anyone to make technology work better for everyone!
+I build platforms where streaming infrastructure disappears behind a self-service button. I have a history of deep technical ownership of an enterprise Kafka platform; custom k8s operators, Terraformed GCP, and a NextJS frontend serving thousands of clients. 4,000+ Kafka brokers, 800+ clusters, 100 billion+ messages per day, five nines, zero data loss. Shipped WarpStream for ~80% infra cost reduction. Always willing to work with anyone to make technology work better for everyone!
 
 ---
 
@@ -34,23 +34,56 @@ I build platforms where streaming infrastructure disappears behind a self-servic
 #### Description
 
 ```
-Contract work for the federal government.
+Federal contract work with enterprise Oracle Big Data Service (BDS).
 ```
 
 ---
 
 ### Lead Software Engineer
 
-**Optum, UnitedHealth Group** | Saint Paul, MN | Sep 2022 - Jul 2026
+**Optum, UnitedHealth Group** | Saint Paul, MN | May 2026 - Jul 2026
 
-#### Description (1994 / 2000 chars)
+#### Description (1212 / 2000 chars)
 
 ```
-One of the deepest technical owners of Optum's Kafka-as-a-Service platform: 4,000+ Kafka brokers, 750+ high-throughput clusters, 100 billion+ messages per day, five nines reliability.
+Promoted to Lead for the final stretch at Optum, owning WarpStream as a production service offering end to end.
 
-KRM/PRM Technical Lead: SME of custom Kubernetes operators (Go) forming a two-tier control plane for automated streaming infra deployment across GCP. 500+ clusters in multi-tenant environments.
+WarpStream as a Service: Took WarpStream from beta to a supported product on the Kafka platform. Owned the net-new Go operator I wrote from scratch, all Terraform infrastructure (GCS, VPC, DNS, IAM), self-service provisioning integration, and full observability. Delivered to Optum's two largest GCP Kafka customers; projected ~80% annual infrastructure cost reduction through WarpStream's diskless, object-storage-backed architecture that removes local disk I/O from the streaming data path.
 
-Warpstream Delivery Lead: Co-led Warpstream cluster provisioning - PRM agents, KRM operator extensions, a net-new Go operator from upstream Helm charts, all Terraform infra from scratch (GCS, VPC, DNS, IAM). Shipped to two largest GCP customers; projected ~80% annual cost reduction.
+Performance Validation: Solely owned the head-to-head WarpStream vs Apache Kafka benchmark that justified the investment - bespoke GKE environment built from scratch, methodology rebuilt after the first results were challenged, findings presented to Confluent engineering and Optum leadership.
+
+Team Leadership: Captained a team of 6 engineers, ran code reviews, wrote user stories, and mentored on distributed systems, Go, and operator patterns.
+
+Transition: Authored the runbooks, adoption playbooks, and knowledge-transfer documentation that let the platform team operate WarpStream after my departure.
+```
+
+#### Skills (10)
+
+| # | Skill | Rationale |
+|---|-------|-----------|
+| **1** | **Apache Kafka** | Core domain; WarpStream is Kafka-protocol compatible |
+| **2** | **Go (Programming Language)** | Wrote the WarpStream operator from scratch |
+| **3** | **Kubernetes** | Operator and StatefulSet lifecycle for the service |
+| **4** | **Terraform** | All WarpStream cloud infrastructure authored from scratch |
+| **5** | **Technical Leadership** | Lead title; captained a team of 6 |
+| 6 | Google Cloud Platform (GCP) | GCS, VPC, DNS, IAM for the WarpStream deployment |
+| 7 | Performance Testing | Head-to-head benchmark that drove the product decision |
+| 8 | Distributed Systems | Diskless streaming architecture |
+| 9 | Mentoring | Code reviews and engineer development |
+| 10 | Technical Documentation | Runbooks, playbooks, knowledge transfer |
+
+---
+
+### Senior Software Engineer
+
+**Optum, UnitedHealth Group** | Saint Paul, MN | Sep 2022 - Jul 2026
+
+#### Description (1729 / 2000 chars)
+
+```
+One of the deepest technical owners of Optum's Kafka-as-a-Service platform: 4,000+ Kafka brokers, 800+ high-throughput clusters, 100 billion+ messages per day, five nines reliability.
+
+KRM/PRM Technical Lead: SME of custom Kubernetes operators (Go) forming a two-tier control plane for automated streaming infra deployment across GCP. 800+ clusters in multi-tenant environments.
 
 Frontend Product Lead: Lead engineer and product owner of the Kafka on Cloud micro-frontend (TypeScript, React, NextJS) in HCP Console. Captain a team of 6; write stories and conduct code reviews.
 
@@ -64,7 +97,7 @@ Organizational Leadership: First-responder for company-wide mandates - Chainguar
 
 Kafka Operations: Production ops - compaction, restarts, partition reassignment, lag monitoring, cert rotation.
 
-SRE & Mentorship: Zero customer data loss. On-call across 1,000+ node fleet. Mentor juniors on distributed systems, Go, and operator patterns. Early Careers volunteer.
+SRE & Mentorship: Zero customer data loss. On-call across a 4,000+ broker fleet. Mentor juniors on distributed systems, Go, and operator patterns. Early Careers volunteer.
 ```
 
 #### Skills (20 - first 5 shown on profile)

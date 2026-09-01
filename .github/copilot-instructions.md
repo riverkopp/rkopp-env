@@ -40,13 +40,29 @@ When generating tailored resumes or cover letters, read PERSONAL_details.md and 
 - Keep role-specific tailoring targeted to the company/job without changing core chronology.
 
 ### Margins (pdf_options)
-Three margin tiers exist (small, medium, large). Only `pdf_options.margin` is set; no other pdf_options are used. Always start with Small. Step up only when content fits comfortably with room to spare.
+Three margin tiers exist (small, medium, large). Always start with Small. Step up only when content fits comfortably with room to spare.
 
 | Tier | top/bottom | left/right | When to use |
 |---|---|---|---|
 | Small | 6mm | 12mm | Default starting point for all resumes and cover letters |
 | Medium | 10mm | 15mm | Step up when Small leaves significant whitespace |
 | Large | 15mm | 20mm | Step up when Medium still leaves significant whitespace |
+
+### Scale (pdf_options)
+`pdf_options.margin` and `pdf_options.scale` are the two levers available. No other pdf_options are used.
+
+`scale` shrinks or grows the whole rendered page, font size and spacing together. Omit it entirely when content already fits; the default is 1.0. Use it when a resume is close to fitting on one page and further trimming would cost real content.
+
+| Value | Effect | When to use |
+|---|---|---|
+| 1.0 (omit) | Default rendering | Content already fits on one page |
+| 0.95 | Slight reduction | A few lines over |
+| 0.90 | Noticeable but still comfortably readable | Roughly a third of a page over, or an extra experience entry was added |
+| Below 0.85 | Too small to read comfortably | Do not use; cut content instead |
+
+Do not use CSS to control font size. md-to-pdf scopes its stylesheet to `.markdown-body`, so a `body { font-size: ... }` rule in a `css` frontmatter block silently does nothing. Set `pdf_options.scale` instead.
+
+Prefer cutting content over scaling. Reach for `scale` only after the One-Page Compression Priority steps below have been applied and the page is still marginally over.
 
 ### Heading Hierarchy
 Master resumes (visual.md, ats.md) use h1 for the name and h2 for section titles.
@@ -194,6 +210,7 @@ Always start at Small margins (6mm/12mm). Apply these steps in order if content 
 4. Fold Warpstream into a single bullet.
 5. Drop Org Initiative Leadership section.
 6. Drop Projects section (move IEEE to Education line).
+7. As a last resort, set `pdf_options.scale` (see Scale above). Use this instead of steps 1-6 only when the remaining content is all load-bearing for the target role, such as when an extra experience entry has been broken out and every bullet still earns its place.
 
 ### PDF Generation and Naming
 - Local PDF output path is docs/pdf/.
