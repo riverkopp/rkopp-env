@@ -16,9 +16,9 @@ fi
 
 for f in "${files[@]}"; do
   base=$(basename "$f" .md)
-  echo "Converting $f → docs/pdf/caleb-kopp-resume-${base}.pdf"
+  echo "Converting $f → docs/pdf/river-kopp-resume-${base}.pdf"
   npx --yes md-to-pdf "$f"
-  mv "${f%.md}.pdf" "docs/pdf/caleb-kopp-resume-${base}.pdf"
+  mv "${f%.md}.pdf" "docs/pdf/river-kopp-resume-${base}.pdf"
 done
 
 echo "Done:"
