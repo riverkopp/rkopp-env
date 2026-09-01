@@ -19,7 +19,7 @@ Platform Engineer | Kafka & Kubernetes Infrastructure | Go, Terraform, GCP | Ful
 
 ## About
 
-I build platforms where streaming infrastructure disappears behind a self-service button. I have a history of deep technical ownership of an enterprise Kafka platform; custom k8s operators, Terraformed GCP, and a NextJS frontend serving thousands of clients. 4,000+ Kafka brokers, 750+ clusters, 100 billion+ messages per day, five nines, zero data loss. Shipped WarpStream for ~80% infra cost reduction. Always willing to work with anyone to make technology work better for everyone!
+I build platforms where streaming infrastructure disappears behind a self-service button. I have a history of deep technical ownership of an enterprise Kafka platform; custom k8s operators, Terraformed GCP, and a NextJS frontend serving thousands of clients. 4,000+ Kafka brokers, 800+ clusters, 100 billion+ messages per day, five nines, zero data loss. Shipped WarpStream for ~80% infra cost reduction. Always willing to work with anyone to make technology work better for everyone!
 
 ---
 
@@ -81,9 +81,9 @@ Transition: Authored the runbooks, adoption playbooks, and knowledge-transfer do
 #### Description (1729 / 2000 chars)
 
 ```
-One of the deepest technical owners of Optum's Kafka-as-a-Service platform: 4,000+ Kafka brokers, 750+ high-throughput clusters, 100 billion+ messages per day, five nines reliability.
+One of the deepest technical owners of Optum's Kafka-as-a-Service platform: 4,000+ Kafka brokers, 800+ high-throughput clusters, 100 billion+ messages per day, five nines reliability.
 
-KRM/PRM Technical Lead: SME of custom Kubernetes operators (Go) forming a two-tier control plane for automated streaming infra deployment across GCP. 500+ clusters in multi-tenant environments.
+KRM/PRM Technical Lead: SME of custom Kubernetes operators (Go) forming a two-tier control plane for automated streaming infra deployment across GCP. 800+ clusters in multi-tenant environments.
 
 Frontend Product Lead: Lead engineer and product owner of the Kafka on Cloud micro-frontend (TypeScript, React, NextJS) in HCP Console. Captain a team of 6; write stories and conduct code reviews.
 

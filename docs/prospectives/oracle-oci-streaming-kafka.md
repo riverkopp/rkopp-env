@@ -1,5 +1,6 @@
 ---
 pdf_options:
+  scale: 0.9
   margin:
     top: 6mm
     bottom: 6mm
@@ -31,12 +32,17 @@ Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; followtheriversong@proto
 
 - Federal contract work with enterprise Oracle Big Data Service (BDS).
 
-##### Senior Software Engineer - Optum, UnitedHealth Group
-*Sep 2022 - Jul 2026* &nbsp;|&nbsp; Saint Paul, MN
+##### Lead Software Engineer - Optum, UnitedHealth Group
+*May 2026 - Jul 2026* &nbsp;|&nbsp; Saint Paul, MN
 
-- Primary technical owner of a multi-tenant Apache Kafka platform serving thousands of internal customers: 4,000+ brokers across 500+ clusters, 100 billion+ messages per day, five-nines availability, zero customer data loss over the platform's history. Built on a two-tier control plane of custom Go operators and CRDs, with Elasticsearch as the shared state store guaranteeing full state recovery if either layer failed.
+- Promoted to Lead to take WarpStream from beta to a supported production service on the Kafka platform: owned the net-new Go operator, all Terraform infrastructure, self-service provisioning integration, and observability. Delivered to the platform's two largest GCP customers, projected to cut annual infrastructure costs by approximately 80% through a diskless, object-storage-backed architecture. Authored the runbooks and knowledge-transfer documentation the team operates it from today.
+
+##### Senior Software Engineer - Optum, UnitedHealth Group
+*Sep 2022 - May 2026* &nbsp;|&nbsp; Saint Paul, MN
+
+- Primary technical owner of a multi-tenant Apache Kafka platform serving thousands of internal customers: 4,000+ brokers across 800+ clusters, 100 billion+ messages per day, five-nines availability, zero customer data loss over the platform's history. Built on a two-tier control plane of custom Go operators and CRDs, with Elasticsearch as the shared state store guaranteeing full state recovery if either layer failed.
 - Owned broker-level operations and performance tuning at production scale: topic compaction configuration, partition reassignment, replication and rolling restarts, consumer group lag, throughput and latency optimization, certificate rotation, and regularly exercised disaster recovery.
-- Solely designed and executed a head-to-head performance benchmark of two streaming architectures, standing up a bespoke environment from scratch, rebuilding the methodology after the first results were challenged, and presenting findings to an external vendor's engineering team and internal leadership. Results directly decided which architecture went to production.
+- Solely designed and executed the head-to-head benchmark of two streaming architectures that drove the above investment: stood up a bespoke environment from scratch, rebuilt the methodology after the first results were challenged, and presented findings to an external vendor's engineering team and internal leadership.
 - Defined safe rollout and compatibility practices: versioned CRD contracts decoupling the product surface from operator internals, environment promotion through CI/CD, and zero-downtime migrations of 300 customer namespaces onto CRD-backed provisioning and 50 Terraform and Helm deployments from OpenShift to Anthos.
 - Drove observability and reliability standards by extending Prometheus, Thanos, and Grafana with Go monitoring controllers and PromQL dashboards; defined utilization thresholds aligned to customer-facing SLAs, led incident response and root cause analysis, and authored the runbooks and adoption playbooks used across the organization.
 - Led cross-team initiatives ahead of any established golden path, rebuilding the container supply chain onto hardened base images and resolving hundreds of cloud security findings in days to unblock the wider platform organization; captained a team of 6, conducted code reviews, mentored engineers on distributed systems and Go, and interviewed early-career candidates each hiring cycle.
