@@ -22,3 +22,5 @@ cask "okta-verify"
 cask "rancher"
 # Open source programming language to build simple/reliable/efficient software
 brew "go@1.22"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"

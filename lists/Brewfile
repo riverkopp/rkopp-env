@@ -117,8 +117,6 @@ brew "lima"
 brew "node"
 # Easily convert Marp Markdown files into static HTML/CSS, PDF, PPT and images
 brew "marp-cli"
-# Polyglot runtime manager (asdf rust clone)
-brew "mise"
 # SMTP client that can be used as an SMTP plugin for Mutt
 brew "msmtp"
 # Manage multiple Node.js versions

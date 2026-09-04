@@ -232,12 +232,13 @@ Only `pdf_options.margin` is used. Three margin tiers exist: Large (15mm/20mm, d
 
 | Target | Usage | Description |
 |---|---|---|
-| `help` | `make help` | Print all available targets with descriptions |
-| `fresh` | `make fresh` | Bootstrap a new machine: install Homebrew, brew packages, and VSCode extensions |
-| `sync` | `make sync` | Capture current machine state into `lists/`, update and upgrade all packages |
-| `init` | `make init` | Bootstrap a fork: reset masters to templates, clear personal content |
+| `help` | `make help` | Print every target with what it actually does, a few lines each |
+| `fresh` | `make fresh` | Set this machine up: Homebrew, the shared Brewfile plus this machine's profile list, VSCode extensions, the docker symlink, then a report of anything missing |
+| `sync` | `make sync` | Capture what is installed here back into `lists/`, asking where each new package belongs. Also runs `brew update && brew upgrade` |
+| `init` | `make init` | Bootstrap a fork: reset masters to templates, clear personal content. Destructive, run once |
 | `docs` | `make docs` | Convert all `docs/*.md` to PDF (macOS/Linux) |
 | `docs` | `make docs FILE=visual` | Convert a single file to PDF (macOS/Linux) |
+| `pushsync` | `make pushsync MSG="..."` | Add, commit and push everything, with the message prefixed `make sync:` |
 | `windocs` | `make windocs` | Convert all `docs/*.md` to PDF (Windows/PowerShell) |
 | `windocs` | `make windocs FILE=visual` | Convert a single file to PDF (Windows/PowerShell) |
 | `winfresh` | `make winfresh` | Install VSCode extensions on Windows |
