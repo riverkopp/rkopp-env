@@ -6,9 +6,6 @@ tap "derailed/k9s", trusted: { formulae: ["k9s"] }
 tap "goreleaser/tap", trusted: true
 tap "hashicorp/tap"
 tap "homebrew/core"
-tap "macpaw/taps", trusted: true
-tap "oven-sh/bun", trusted: true
-tap "powershell/tap", trusted: true
 tap "libkrun/krun", trusted: true
 tap "macpaw/taps", trusted: true
 tap "oven-sh/bun", trusted: true
@@ -50,8 +47,12 @@ brew "docker-credential-helper"
 brew "eza"
 # Like neofetch, but much faster because written mostly in C
 brew "fastfetch"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
 # Play, record, convert, and stream select audio and video codecs
 brew "ffmpeg"
+# User-friendly command-line shell for UNIX-like operating systems
+brew "fish"
 # Lightweight scripting language for querying databases
 brew "flux"
 # Command-line fuzzy finder written in Go
@@ -74,6 +75,8 @@ brew "go"
 brew "go-task"
 # Open source programming language to build simple/reliable/efficient software
 brew "go@1.22"
+# Command-line Golang template processor
+brew "gomplate"
 # Language server for the Go language
 brew "gopls"
 # Terminal based graphical activity monitor inspired by gtop and vtop
@@ -118,6 +121,8 @@ brew "libtool"
 brew "lima"
 # Easily convert Marp Markdown files into static HTML/CSS, PDF, PPT and images
 brew "marp-cli"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
 # SMTP client that can be used as an SMTP plugin for Mutt
 brew "msmtp"
 # Manage multiple Node.js versions
@@ -204,10 +209,6 @@ brew "confluentinc/tap/cli", trusted: true
 brew "hashicorp/tap/terraform", trusted: true
 # Vault
 brew "hashicorp/tap/vault", trusted: true
-# WarpStream Kafka-compatible agent
-brew "warpstreamlabs/tap/warpstream", trusted: true
-# Clipboard extension app
-cask "clipy"
 # CLI tool to start Linux KVM or macOS HVF VMs using the libkrun
 brew "libkrun/krun/krunkit"
 # Manage lightweight VMs created from OCI images
@@ -226,8 +227,6 @@ cask "codex"
 cask "github"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
-# Tool to prevent the system from going into sleep mode
-cask "keepingyouawake"
 # Menu bar manager
 cask "jordanbaird-ice"
 # Tool to prevent the system from going into sleep mode
@@ -244,8 +243,6 @@ cask "raycast"
 cask "rectangle"
 # Tool to reverse the direction of scrolling
 cask "scroll-reverser"
-# Open-source code editor
-cask "visual-studio-code"
 # Development environment
 cask "vagrant"
 cask "vagrant-manager"
