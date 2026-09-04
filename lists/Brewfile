@@ -234,6 +234,8 @@ cask "keepingyouawake"
 cask "notunes"
 # Identity verification provider
 cask "okta-verify"
+# Graphical container manager for the podman engine
+cask "podman-desktop"
 # Kubernetes and container management on the desktop
 cask "rancher"
 # Control your tools with a few keystrokes

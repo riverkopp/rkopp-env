@@ -111,7 +111,7 @@ Downloads run at `HOMEBREW_DOWNLOAD_CONCURRENCY=4` rather than Homebrew's defaul
 
 ### Post-Install Steps (manual)
 
-`make fresh` ends by printing the caveats Homebrew asked for, so work through those first. Two more things it cannot do for you:
+`make fresh` ends by printing the caveats Homebrew asked for, so work through those first. Three more things it cannot do for you:
 
 1. **Install [Oh My Zsh](https://ohmyz.sh/)**, which is not a Homebrew package and so has no caveats of its own. Do this *before* the shell-profile edits below, because its installer rewrites `~/.zshrc` and would drop them:
 
@@ -124,6 +124,24 @@ Downloads run at `HOMEBREW_DOWNLOAD_CONCURRENCY=4` rather than Homebrew's defaul
    ```sh
    echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
    ```
+
+3. **Give Podman the `docker` name.** The Brewfile installs `podman`, `podman-compose` and Podman Desktop, but no `docker` command. Point one at the other with a symlink:
+
+   ```sh
+   podman machine init && podman machine start          # only needed once per machine
+   ln -s "$(brew --prefix)/bin/podman" "$(brew --prefix)/bin/docker"
+   ```
+
+   Do not settle for `alias docker=podman`. An alias only exists inside an interactive zsh session, and most things that call Docker are not one. Makefiles, `#!/bin/sh` scripts, IDE run configurations, test harnesses like Testcontainers, and anything a GUI app launches all exec `docker` directly, never read your `.zshrc`, and still fail with `docker: command not found`. A symlink sits on `PATH`, so every one of them finds it. This is the step that has saved the most time on work machines.
+
+   Tools that skip the CLI and talk to the daemon socket need that in the usual place too:
+
+   ```sh
+   sudo podman-mac-helper install
+   podman machine stop && podman machine start
+   ```
+
+   If you ever install Docker Desktop or the `docker` formula on the same machine, delete the symlink first. Two things cannot own `$(brew --prefix)/bin/docker`.
 
 Open a new shell afterwards; powerlevel10k's configuration wizard runs on first launch.
 
