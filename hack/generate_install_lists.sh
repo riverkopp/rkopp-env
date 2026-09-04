@@ -81,6 +81,23 @@ drop_entry() {
     ' ./Brewfile > ./Brewfile.new && mv ./Brewfile.new ./Brewfile
 }
 
+# Strip the carried-forward header written by the last run. Its final comment
+# line sits directly above the first carried entry, so entry_line would copy it
+# out as if it were that package's description, and the block would grow a
+# duplicate line on every sync.
+if [ -f "./Brewfile.old" ] ; then
+    awk '/^# --- carried forward/ { skip = 1 ; next }
+         skip && /^#/            { next }
+         { skip = 0 ; print }' ./Brewfile.old > ./Brewfile.tmp \
+        && mv ./Brewfile.tmp ./Brewfile.old
+fi
+
+# What is installed on this machine right now, straight from the dump. Saved at
+# the end of the run and compared on the next one, so a package you deliberately
+# uninstalled can be told apart from one that was never installed here.
+snapshot="../etc/installed.txt"
+installed_now=$(entry_keys ./Brewfile | sort -u)
+
 # Homebrew keeps a disabled package working once it is installed, so
 # `brew bundle dump` writes it straight back out -- but a fresh machine can
 # never install it again, and every `make fresh` would report it as a failure
@@ -101,11 +118,20 @@ done <<< "$disabled"
 # connection mid-download, say -- would silently vanish from the tracked list.
 # Carry those forward so the Brewfile stays the full intended set and the next
 # `make fresh` retries them.
+#
+# A package you uninstalled on purpose looks identical in the dump, so the
+# snapshot from the last run breaks the tie: it was installed here then and it
+# is gone now, which no failed install can produce. Drop those instead.
 if [ -f "./Brewfile.old" ] ; then
     carried=$(comm -23 <(entry_keys ./Brewfile.old | sort -u) \
                        <(entry_keys ./Brewfile | sort -u) \
               | while IFS= read -r key ; do
-                    grep -qxF "${key#* }" <<< "$disabled" || echo "$key"
+                    grep -qxF "${key#* }" <<< "$disabled" && continue
+                    if [ -s "$snapshot" ] && grep -qxF "$key" "$snapshot" ; then
+                        echo "Dropping \"${key#* }\": installed at the last sync and gone now, so it was uninstalled on purpose." >&2
+                        continue
+                    fi
+                    echo "$key"
                 done)
 
     if [ -n "$carried" ] ; then
@@ -122,5 +148,11 @@ if [ -f "./Brewfile.old" ] ; then
         echo "Carried forward $(grep -c . <<< "$carried") entries not installed on this machine."
     fi
 fi
+
+if [ ! -s "$snapshot" ] ; then
+    echo "Recording what is installed here for the first time; from the next \`make sync\` on,"
+    echo "anything you uninstall gets dropped from the Brewfile instead of carried forward."
+fi
+printf '%s\n' "$installed_now" > "$snapshot"
 
 rm -f "./Brewfile.old"

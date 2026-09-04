@@ -175,7 +175,7 @@ diagnose() {
     fi
 
     # Homebrew labels a formula "Deprecated because ... It was disabled on <date>"
-    # once removal lands, so the disabled date — not the prefix — decides whether
+    # once removal lands, so the disabled date, not the prefix, decides whether
     # a reinstall can still succeed.
     if grep -qE "^(Disabled|Deprecated) because" <<<"$info"; then
         REASON=$(grep -m1 -E "^(Disabled|Deprecated) because" <<<"$info")
