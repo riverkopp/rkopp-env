@@ -41,8 +41,17 @@ fi
 # A tap without `trusted: true` makes brew refuse to load its formulae, and
 # brew bundle then reports EVERY entry as failed rather than just that tap's.
 # Catch it up front instead of after a 20-minute run.
-untrusted=$(grep -E '^tap "' "$BREWFILE" | grep -v 'trusted:' \
-            | sed -E 's/^tap "([^"]+)".*/\1/' | grep -v '^homebrew/' || true)
+# An entry that carries its own `trusted:` loads fine from an untrusted tap, so
+# only warn about taps that actually have an entry without one.
+untrusted=""
+while IFS= read -r t; do
+    [ -n "$t" ] || continue
+    grep -E "^(brew|cask) \"$t/" "$BREWFILE" | grep -qv 'trusted:' \
+        && untrusted+="$t"$'\n'
+done < <(grep -E '^tap "' "$BREWFILE" | grep -v 'trusted:' \
+         | sed -E 's/^tap "([^"]+)".*/\1/' | grep -v '^homebrew/')
+
+untrusted=${untrusted%$'\n'}
 
 if [ -n "$untrusted" ]; then
     echo "${yellow}${bold}==> Warning: untrusted taps in the Brewfile${reset}"
@@ -74,6 +83,55 @@ done
 # VSCode extensions are `vscode "..."` entries in the Brewfile, so the bundle
 # above already installed them. lists/vsc_install_list.ps1 still exists for
 # Windows, which has no brew.
+
+# ---------------------------------------------------------- post-install notes
+
+# Homebrew prints each package's caveats -- the PATH exports, symlinks and
+# shell-profile lines you still have to add yourself -- as it installs, which on
+# a full Brewfile run is thousands of lines before the end. Collect them from
+# `brew info` and reprint them at the bottom, where they can still be read.
+post_install_notes() {
+    local prefix notes
+
+    prefix="$(brew --prefix)"
+
+    notes=$(sed -nE 's/^(brew|cask) "([^"]+)".*/\2/p' "$BREWFILE" | sort -u \
+        | xargs brew info --json=v2 2>/dev/null \
+        | jq -r 'def body: if type == "array" then map(tostring) | join("\n") else tostring end;
+                 (.formulae[] | select((.installed | length) > 0) | select(.caveats)
+                              | "--- \(.full_name) ---\n\(.caveats | body)"),
+                 (.casks[]    | select(.installed) | select(.caveats)
+                              | "--- \(.token) ---\n\(.caveats | body)")' 2>/dev/null \
+        | sed "s|[$]HOMEBREW_PREFIX|$prefix|g")
+
+    [ -n "$notes" ] || return 0
+
+    echo ""
+    echo "${bold}==> Post-install steps Homebrew asked for${reset}"
+    echo ""
+    echo "  These scrolled past during the install. Nothing below has been done"
+    echo "  for you; add whatever you actually use to your shell profile."
+    echo ""
+    echo "$notes"
+    echo ""
+}
+
+# ------------------------------------------------------------- manual leftovers
+
+# Oh My Zsh is not a Homebrew package, so it has no caveats of its own and
+# nothing above will mention it.
+manual_steps() {
+    [ -d "$HOME/.oh-my-zsh" ] && return 0
+
+    echo "${bold}Not installable by Homebrew:${reset}"
+    echo ""
+    echo '  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+    echo ""
+    echo "  Run this before the shell-profile edits above: the Oh My Zsh"
+    echo "  installer rewrites ~/.zshrc and would drop them."
+    echo ""
+    return 0
+}
 
 # ---------------------------------------------------------------- diagnose gaps
 
@@ -144,6 +202,8 @@ missing=$(grep -E '^(→|->) .+ needs to be' <<<"$check_out" \
 
 if [ -z "$missing" ]; then
     echo "${green}All Brewfile entries are installed.${reset}"
+    post_install_notes
+    manual_steps
     exit 0
 fi
 
@@ -188,3 +248,6 @@ echo "${bold}Then re-verify:${reset}"
 echo ""
 echo "  make fresh    # safe to re-run; installed entries are skipped"
 echo ""
+
+post_install_notes
+manual_steps

@@ -4,14 +4,11 @@ tap "confluentinc/tap"
 tap "databricks/tap", trusted: true
 tap "derailed/k9s", trusted: { formulae: ["k9s"] }
 tap "goreleaser/tap", trusted: true
-tap "hashicorp/tap"
-tap "homebrew/core"
+tap "hashicorp/tap", trusted: true
 tap "libkrun/krun", trusted: true
 tap "macpaw/taps", trusted: true
 tap "oven-sh/bun", trusted: true
 tap "powershell/tap", trusted: true
-tap "riverkopp/local-asdf"
-tap "riverkopp/local-go"
 tap "romkatv/powerlevel10k", trusted: true
 tap "tilt-dev/tap", trusted: true
 tap "warpstreamlabs/tap", trusted: true
@@ -21,10 +18,6 @@ brew "age"
 brew "aom"
 # Tool for generating GNU Standards-compliant Makefiles
 brew "automake"
-# Cryptography and SSL/TLS Toolkit
-brew "openssl@3"
-# General-purpose data compression with high compression ratio
-brew "xz"
 # Microsoft Azure CLI 2.0
 brew "azure-cli"
 # Programmable completion for Bash 3.2
@@ -47,12 +40,8 @@ brew "docker-credential-helper"
 brew "eza"
 # Like neofetch, but much faster because written mostly in C
 brew "fastfetch"
-# Simple, fast and user-friendly alternative to find
-brew "fd"
 # Play, record, convert, and stream select audio and video codecs
 brew "ffmpeg"
-# User-friendly command-line shell for UNIX-like operating systems
-brew "fish"
 # Lightweight scripting language for querying databases
 brew "flux"
 # Command-line fuzzy finder written in Go
@@ -73,10 +62,6 @@ brew "gnu-sed"
 brew "go"
 # Task is a task runner/build tool that aims to be simpler and easier to use
 brew "go-task"
-# Open source programming language to build simple/reliable/efficient software
-brew "go@1.22"
-# Command-line Golang template processor
-brew "gomplate"
 # Language server for the Go language
 brew "gopls"
 # Terminal based graphical activity monitor inspired by gtop and vtop
@@ -119,10 +104,10 @@ brew "libheif"
 brew "libtool"
 # Linux virtual machines
 brew "lima"
+# Open-source, cross-platform JavaScript runtime environment
+brew "node"
 # Easily convert Marp Markdown files into static HTML/CSS, PDF, PPT and images
 brew "marp-cli"
-# Polyglot runtime manager (asdf rust clone)
-brew "mise"
 # SMTP client that can be used as an SMTP plugin for Mutt
 brew "msmtp"
 # Manage multiple Node.js versions
@@ -210,21 +195,17 @@ brew "hashicorp/tap/terraform", trusted: true
 # Vault
 brew "hashicorp/tap/vault", trusted: true
 # CLI tool to start Linux KVM or macOS HVF VMs using the libkrun
-brew "libkrun/krun/krunkit"
+brew "libkrun/krun/krunkit", trusted: true
 # Manage lightweight VMs created from OCI images
-brew "libkrun/krun/krunvm"
-# Extendable version manager with support for Ruby, Node.js, Erlang & more
-brew "riverkopp/local-asdf/asdf@0.15.0", trusted: true
+brew "libkrun/krun/krunvm", trusted: true
 # WarpStream Kafka-compatible agent
 brew "warpstreamlabs/tap/warpstream", trusted: true
-# All-in-one installer for the tools you need to manage your Chef infrastructure
-cask "chef-workstation"
+# Anthropic's official Claude AI desktop app
+cask "claude"
+# Terminal-based AI coding assistant
+cask "claude-code"
 # Clipboard extension app
 cask "clipy"
-# OpenAI's coding agent that runs in your terminal
-cask "codex"
-# Desktop client for GitHub repositories
-cask "github"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
 # Menu bar manager
@@ -233,10 +214,6 @@ cask "jordanbaird-ice"
 cask "keepingyouawake"
 # Simple application that will prevent iTunes or Apple Music from launching
 cask "notunes"
-# Identity verification provider
-cask "okta-verify"
-# Kubernetes and container management on the desktop
-cask "rancher"
 # Control your tools with a few keystrokes
 cask "raycast"
 # Move and resize windows using keyboard shortcuts or snap areas
@@ -245,15 +222,12 @@ cask "rectangle"
 cask "scroll-reverser"
 # Development environment
 cask "vagrant"
-cask "vagrant-manager"
-# Virtualiser for arm64 hardware
-cask "virtualbox"
 # Open-source code editor
 cask "visual-studio-code"
 # Web browser
 cask "waterfox"
-# Multiplayer code editor
-cask "zed"
+# Gecko based web browser
+cask "zen"
 vscode "4ops.terraform"
 vscode "aaron-bond.better-comments"
 vscode "albert.tabout"
@@ -319,6 +293,37 @@ vscode "william-voyek.vscode-nginx"
 vscode "yoavbls.pretty-ts-errors"
 vscode "yzhang.markdown-all-in-one"
 vscode "zhuangtongfa.material-theme"
+
+# --- carried forward ---------------------------------------------------
+# Tracked here but not installed on this machine, so `brew bundle dump`
+# left them out. Kept so a failed install cannot quietly drop a package
+# from the list; `make fresh` picks them up on the next run.
+# Simple, fast and user-friendly alternative to find
+brew "fd"
+# User-friendly command-line shell for UNIX-like operating systems
+brew "fish"
+# Command-line Golang template processor
+brew "gomplate"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@3"
+# General-purpose data compression with high compression ratio
+brew "xz"
+# All-in-one installer for the tools you need to manage your Chef infrastructure
+cask "chef-workstation"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
+# Desktop client for GitHub repositories
+cask "github"
+# Identity verification provider
+cask "okta-verify"
+# Kubernetes and container management on the desktop
+cask "rancher"
+# Virtualiser for arm64 hardware
+cask "virtualbox"
+# Multiplayer code editor
+cask "zed"
 go "github.com/google/go-containerregistry/cmd/gcrane"
 go "golang.org/x/tools/gopls"
 go "golang.org/x/vuln/cmd/govulncheck"

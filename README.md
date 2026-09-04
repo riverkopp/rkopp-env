@@ -18,6 +18,7 @@ A portable toolkit for **macOS machine setup** and **resume automation**. Fork i
   - [Repository Structure](#repository-structure)
   - [Machine Setup (Brewfile)](#machine-setup-brewfile)
     - [Fresh Install (new machine)](#fresh-install-new-machine)
+    - [Post-Install Steps (manual)](#post-install-steps-manual)
     - [Syncing Your Current Machine State](#syncing-your-current-machine-state)
   - [Resume Automation](#resume-automation)
     - [Resume Document Hierarchy](#resume-document-hierarchy)
@@ -103,8 +104,27 @@ This runs `hack/fresh_install.sh`, which:
 2. Warns about any untrusted taps, which would otherwise make the whole bundle report as failed
 3. Runs `brew bundle --file=./lists/Brewfile` to install all packages, including VSCode extensions (the `vscode "..."` entries). Retries up to `BUNDLE_ATTEMPTS` times (default 3), with the final pass downloading serially
 4. Prints any entry that is still missing, why it failed, and the command to fix it
+5. Reprints every installed package's Homebrew caveats — the `PATH` exports, symlinks and shell-profile lines you still have to add by hand. Homebrew prints these as it installs, thousands of lines before the run ends; collecting them at the bottom is the only way they get read
 
 Downloads run at `HOMEBREW_DOWNLOAD_CONCURRENCY=4` rather than Homebrew's default (2x CPU cores), because several third-party CDNs reset connections under heavier parallelism. Both that and `BUNDLE_ATTEMPTS` can be overridden in the environment.
+
+### Post-Install Steps (manual)
+
+`make fresh` ends by printing the caveats Homebrew asked for — work through those first. Two more things it cannot do for you:
+
+1. **Install [Oh My Zsh](https://ohmyz.sh/)**, which is not a Homebrew package and so has no caveats of its own. Do this *before* the shell-profile edits below, because its installer rewrites `~/.zshrc` and would drop them:
+
+   ```sh
+   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+   ```
+
+2. **Point `.zshrc` at the powerlevel10k theme.** The Brewfile installs `powerlevel10k` but nothing sources it. This is one of the caveats `make fresh` reprints, repeated here because it is easy to miss:
+
+   ```sh
+   echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
+   ```
+
+Open a new shell afterwards; powerlevel10k's configuration wizard runs on first launch.
 
 ### Syncing Your Current Machine State
 
@@ -115,9 +135,11 @@ make sync
 ```
 
 This runs `hack/generate_install_lists.sh`, which:
-1. Regenerates `lists/Brewfile` from your current `brew` state via `brew bundle dump`
-2. Regenerates `lists/vsc_install_list.{sh,ps1}` from `code --list-extensions` (macOS installs extensions from the Brewfile; these lists are for Windows)
-3. Runs `brew update && brew upgrade` to keep everything current
+1. Runs `brew update && brew upgrade` to keep everything current
+2. Regenerates `lists/Brewfile` from your current `brew` state via `brew bundle dump`
+3. Carries forward any entry the dump left out because it is not installed here, under a `# --- carried forward ---` block at the end of the file. `brew bundle dump` records only what is installed *right now*, so without this a cask that failed to download during `make fresh` would quietly disappear from the tracked list instead of being retried
+4. Drops anything Homebrew has disabled. A disabled package keeps working once installed, so the dump writes it back out, but no fresh machine can ever install it again
+5. Regenerates `lists/vsc_install_list.{sh,ps1}` from `code --list-extensions` (macOS installs extensions from the Brewfile; these lists are for Windows)
 
 Commit and push the updated files to keep your setup tracked in git.
 
