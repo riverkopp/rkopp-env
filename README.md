@@ -18,6 +18,7 @@ A portable toolkit for **macOS machine setup** and **resume automation**. Fork i
   - [Repository Structure](#repository-structure)
   - [Machine Setup (Brewfile)](#machine-setup-brewfile)
     - [Fresh Install (new machine)](#fresh-install-new-machine)
+    - [Post-Install Steps (manual)](#post-install-steps-manual)
     - [Syncing Your Current Machine State](#syncing-your-current-machine-state)
   - [Resume Automation](#resume-automation)
     - [Resume Document Hierarchy](#resume-document-hierarchy)
@@ -99,9 +100,53 @@ make fresh
 ```
 
 This runs `hack/fresh_install.sh`, which:
-1. Installs Homebrew (if not already present)
-2. Runs `brew bundle --file=./lists/Brewfile` to install all packages
-3. Runs `lists/vsc_install_list.sh` to install all VSCode extensions
+1. Installs Homebrew (if not already present) and puts it on the current shell's `PATH`
+2. Asks once whether this is a personal or a professional machine and remembers the answer in `etc/profile.txt`. It then also installs the matching `lists/Brewfile.<profile>` and ignores the other one. A non-interactive run assumes professional
+3. Warns about any untrusted taps, which would otherwise make the whole bundle report as failed
+4. Runs `brew bundle --file=./lists/Brewfile` to install all packages, including VSCode extensions (the `vscode "..."` entries). Retries up to `BUNDLE_ATTEMPTS` times (default 3), with the final pass downloading serially
+5. Symlinks `docker` to `podman` if podman is installed and nothing else claims the name
+6. Prints any entry that is still missing, why it failed, and the command to fix it
+7. Reprints every installed package's Homebrew caveats, meaning the `PATH` exports, symlinks and shell-profile lines you still have to add by hand. Homebrew prints these as it installs, thousands of lines before the run ends; collecting them at the bottom is the only way they get read
+
+Downloads run at `HOMEBREW_DOWNLOAD_CONCURRENCY=4` rather than Homebrew's default (2x CPU cores), because several third-party CDNs reset connections under heavier parallelism. Both that and `BUNDLE_ATTEMPTS` can be overridden in the environment.
+
+### Post-Install Steps (manual)
+
+`make fresh` ends by printing the caveats Homebrew asked for, so work through those first. Two more things it cannot do for you, and one it now handles on its own:
+
+1. **Install [Oh My Zsh](https://ohmyz.sh/)**, which is not a Homebrew package and so has no caveats of its own. Do this *before* the shell-profile edits below, because its installer rewrites `~/.zshrc` and would drop them:
+
+   ```sh
+   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+   ```
+
+2. **Point `.zshrc` at the powerlevel10k theme.** The Brewfile installs `powerlevel10k` but nothing sources it. This is one of the caveats `make fresh` reprints, repeated here because it is easy to miss:
+
+   ```sh
+   echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
+   ```
+
+3. **Podman as `docker`.** This one `make fresh` now does for you. Once podman is installed it symlinks `$(brew --prefix)/bin/docker` to `$(brew --prefix)/bin/podman`, and it stays out of the way if anything already owns that name or a `docker` is already on `PATH`. Re-running changes nothing. By hand it is:
+
+   ```sh
+   ln -s "$(brew --prefix)/bin/podman" "$(brew --prefix)/bin/docker"
+   ```
+
+   Do not settle for `alias docker=podman`. An alias only exists inside an interactive zsh session, and most things that call Docker are not one. Makefiles, `#!/bin/sh` scripts, IDE run configurations, test harnesses like Testcontainers, and anything a GUI app launches all exec `docker` directly, never read your `.zshrc`, and still fail with `docker: command not found`. A symlink sits on `PATH`, so every one of them finds it. This is the trick that has saved the most time on work machines.
+
+   Two related steps stay manual, since one downloads a virtual machine and the other needs `sudo`:
+
+   ```sh
+   podman machine init && podman machine start                 # the VM containers run in
+   sudo podman-mac-helper install                              # daemon socket in the usual place
+   podman machine stop && podman machine start
+   ```
+
+   The socket step only matters for tools that skip the CLI and talk to `/var/run/docker.sock` directly, such as the Docker SDKs and Testcontainers.
+
+   If you ever install Docker Desktop or the `docker` formula on the same machine, delete the symlink first. Two things cannot own `$(brew --prefix)/bin/docker`.
+
+Open a new shell afterwards; powerlevel10k's configuration wizard runs on first launch.
 
 ### Syncing Your Current Machine State
 
@@ -112,11 +157,31 @@ make sync
 ```
 
 This runs `hack/generate_install_lists.sh`, which:
-1. Regenerates `lists/Brewfile` from your current `brew` state via `brew bundle dump`
-2. Regenerates `lists/vsc_install_list.sh` from `code --list-extensions`
-3. Runs `brew update && brew upgrade` to keep everything current
+1. Runs `brew update && brew upgrade` to keep everything current
+2. Regenerates `lists/Brewfile` from your current `brew` state via `brew bundle dump`
+3. Carries forward any entry the dump left out because it is not installed here, under a `# --- carried forward ---` block at the end of the file. `brew bundle dump` records only what is installed *right now*, so without this a cask that failed to download during `make fresh` would quietly disappear from the tracked list instead of being retried
+4. Drops anything you uninstalled on purpose. A package you removed and a package that never installed look the same in a dump, so `make sync` keeps a snapshot of what was installed here last time, in `etc/installed.txt` (gitignored, one per machine). Present in that snapshot and absent now means you removed it, so it leaves the Brewfile instead of being carried forward. On a machine with no snapshot yet, the first `make sync` carries everything forward and writes the snapshot, and removals are detected from the next run on
+5. Drops anything Homebrew has disabled. A disabled package keeps working once installed, so the dump writes it back out, but no fresh machine can ever install it again
+6. Asks where each newly installed package belongs, once per package: every machine, personal only, or work only. The one-sided ones move to `lists/Brewfile.personal` or `lists/Brewfile.professional` and are kept out of the shared `lists/Brewfile`. Outside a terminal there is nobody to ask, so new entries stay in the shared list and get named in the output
+7. Regenerates `lists/vsc_install_list.{sh,ps1}` from `code --list-extensions` (macOS installs extensions from the Brewfile; these lists are for Windows)
 
 Commit and push the updated files to keep your setup tracked in git.
+
+### Personal vs. professional machines
+
+Three tracked lists:
+
+| File | Installed where | Holds |
+|---|---|---|
+| `lists/Brewfile` | Every machine | The shared majority |
+| `lists/Brewfile.personal` | Only where `etc/profile.txt` says `personal` | Games, music, chat |
+| `lists/Brewfile.professional` | Only where it says `professional` | Work tooling: Chef, Okta, Rancher, the libkrun tap |
+
+`etc/profile.txt` holds one word, `personal` or `professional`, and is gitignored so each machine keeps its own. `make fresh` asks for it the first time and you can edit it whenever the answer changes.
+
+To move a package between lists, cut its line from one file and paste it into another. `make sync` will not move it back: anything tracked in a profile list is removed from the dump before the shared list is written.
+
+One asymmetry worth knowing. `make sync` drops a package you uninstalled, but it only applies that rule to the list matching **this** machine. Uninstalling a work tool on your personal machine leaves `Brewfile.professional` untouched, because a package missing from a machine that was never supposed to have it says nothing about whether you still want it.
 
 ## Resume Automation
 
@@ -167,12 +232,13 @@ Only `pdf_options.margin` is used. Three margin tiers exist: Large (15mm/20mm, d
 
 | Target | Usage | Description |
 |---|---|---|
-| `help` | `make help` | Print all available targets with descriptions |
-| `fresh` | `make fresh` | Bootstrap a new machine: install Homebrew, brew packages, and VSCode extensions |
-| `sync` | `make sync` | Capture current machine state into `lists/`, update and upgrade all packages |
-| `init` | `make init` | Bootstrap a fork: reset masters to templates, clear personal content |
+| `help` | `make help` | Print every target with what it actually does, a few lines each |
+| `fresh` | `make fresh` | Set this machine up: Homebrew, the shared Brewfile plus this machine's profile list, VSCode extensions, the docker symlink, then a report of anything missing |
+| `sync` | `make sync` | Capture what is installed here back into `lists/`, asking where each new package belongs. Also runs `brew update && brew upgrade` |
+| `init` | `make init` | Bootstrap a fork: reset masters to templates, clear personal content. Destructive, run once |
 | `docs` | `make docs` | Convert all `docs/*.md` to PDF (macOS/Linux) |
 | `docs` | `make docs FILE=visual` | Convert a single file to PDF (macOS/Linux) |
+| `pushsync` | `make pushsync MSG="..."` | Add, commit and push everything, with the message prefixed `make sync:` |
 | `windocs` | `make windocs` | Convert all `docs/*.md` to PDF (Windows/PowerShell) |
 | `windocs` | `make windocs FILE=visual` | Convert a single file to PDF (Windows/PowerShell) |
 | `winfresh` | `make winfresh` | Install VSCode extensions on Windows |

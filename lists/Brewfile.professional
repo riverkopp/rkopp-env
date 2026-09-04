@@ -1,0 +1,26 @@
+# Professional-only packages.
+#
+# `make fresh` installs these on top of lists/Brewfile when etc/profile.txt says
+# `professional`, and skips the file entirely on a personal machine. `make sync`
+# asks where each newly installed package belongs and appends the work ones here,
+# so they never reach a personal machine.
+
+tap "libkrun/krun", trusted: true
+# Unified tool to manage your Rancher server
+brew "rancher-cli"
+# CLI tool to start Linux KVM or macOS HVF VMs using the libkrun
+brew "libkrun/krun/krunkit", trusted: true
+# Manage lightweight VMs created from OCI images
+brew "libkrun/krun/krunvm", trusted: true
+# All-in-one installer for the tools you need to manage your Chef infrastructure
+cask "chef-workstation"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
+# Identity verification provider
+cask "okta-verify"
+# Kubernetes and container management on the desktop
+cask "rancher"
+# Open source programming language to build simple/reliable/efficient software
+brew "go@1.22"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
