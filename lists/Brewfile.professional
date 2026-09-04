@@ -18,3 +18,5 @@ cask "chef-workstation"
 cask "codex"
 # Identity verification provider
 cask "okta-verify"
+# Kubernetes and container management on the desktop
+cask "rancher"

@@ -175,7 +175,7 @@ Three tracked lists:
 |---|---|---|
 | `lists/Brewfile` | Every machine | The shared majority |
 | `lists/Brewfile.personal` | Only where `etc/profile.txt` says `personal` | Games, music, chat |
-| `lists/Brewfile.professional` | Only where it says `professional` | Work tooling: Chef, Okta, Rancher CLI, the libkrun tap |
+| `lists/Brewfile.professional` | Only where it says `professional` | Work tooling: Chef, Okta, Rancher, the libkrun tap |
 
 `etc/profile.txt` holds one word, `personal` or `professional`, and is gitignored so each machine keeps its own. `make fresh` asks for it the first time and you can edit it whenever the answer changes.
 
