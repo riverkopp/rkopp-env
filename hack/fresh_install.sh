@@ -5,6 +5,8 @@ set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BREWFILE="$REPO_ROOT/lists/Brewfile"
 BUNDLE_ATTEMPTS="${BUNDLE_ATTEMPTS:-3}"
+PERSONAL="$REPO_ROOT/lists/Brewfile.personal"
+PROFILE_FILE="$REPO_ROOT/etc/profile.txt"
 
 # Third-party CDNs (chef.io, waterfox, virtualbox, okta) reset connections when
 # Homebrew's default concurrency (2x CPU cores) hits them all at once, which
@@ -34,6 +36,33 @@ done
 if ! command -v brew >/dev/null 2>&1; then
     echo "${red}ERROR:${reset} brew is not on PATH after install; cannot continue." >&2
     exit 1
+fi
+
+# ------------------------------------------------------------- machine profile
+
+# Personal-only packages (games, music, chat) are tracked in their own file so a
+# work machine never installs them. Which kind of machine this is gets asked once
+# and remembered in etc/profile.txt, which is gitignored. A non-interactive run
+# assumes professional, the harmless way to be wrong.
+if [ ! -s "$PROFILE_FILE" ]; then
+    if [ -r /dev/tty ] && [ -t 1 ]; then
+        printf 'Personal machine? Personal also installs lists/Brewfile.personal. [y/N] > '
+        read -r reply < /dev/tty
+        case "$reply" in [yY]*) echo personal ;; *) echo professional ;; esac > "$PROFILE_FILE"
+    else
+        echo professional > "$PROFILE_FILE"
+    fi
+    echo "Machine profile set to $(cat "$PROFILE_FILE"); edit etc/profile.txt to change it."
+fi
+
+# Everything downstream reads one Brewfile, so hand it both files joined rather
+# than teaching the bundle, the check and the caveats pass about a second path.
+if [ "$(cat "$PROFILE_FILE" 2>/dev/null)" = personal ] && [ -s "$PERSONAL" ]; then
+    COMBINED="$(mktemp)"
+    trap 'rm -f "$COMBINED"' EXIT
+    cat "$BREWFILE" "$PERSONAL" > "$COMBINED"
+    BREWFILE="$COMBINED"
+    echo "${bold}Personal machine:${reset} including lists/Brewfile.personal"
 fi
 
 # ----------------------------------------------------------------- preflight

@@ -63,22 +63,24 @@ entry_line() {
     ' "$3"
 }
 
-# Remove one brew/cask entry, and the description comment above it.
-drop_entry() {
-    awk -v name="$1" '
+# Rewrite $1 without any entry whose "type name" key is listed in file $2,
+# dropping each one's description comment with it.
+remove_entries() {
+    [ -f "$1" ] || return 0
+    awk -v keyfile="$2" '
+        BEGIN { while ((getline k < keyfile) > 0) if (k != "") drop[k] = 1 }
         /^#/ { if (comment != "") print comment; comment = $0; next }
         {
-            pfx = ($0 ~ /^cask /) ? "cask \"" name "\"" : "brew \"" name "\""
-            if (substr($0, 1, length(pfx)) == pfx &&
-                (length($0) == length(pfx) || substr($0, length(pfx) + 1, 1) == ",")) {
-                comment = ""
-                next
+            if (match($0, /^[a-z]+ "[^"]+"/)) {
+                key = substr($0, RSTART, RLENGTH)
+                gsub(/"/, "", key)
+                if (key in drop) { comment = ""; next }
             }
             if (comment != "") { print comment; comment = "" }
             print
         }
         END { if (comment != "") print comment }
-    ' ./Brewfile > ./Brewfile.new && mv ./Brewfile.new ./Brewfile
+    ' "$1" > "$1.new" && mv "$1.new" "$1"
 }
 
 # Strip the carried-forward header written by the last run. Its final comment
@@ -98,20 +100,91 @@ fi
 snapshot="../etc/installed.txt"
 installed_now=$(entry_keys ./Brewfile | sort -u)
 
+# Personal-only packages live in their own file. `make fresh` installs it on top
+# of the standard Brewfile on a personal machine and ignores it everywhere else,
+# so anything in here never lands on a work machine.
+PERSONAL="./Brewfile.personal"
+
 # Homebrew keeps a disabled package working once it is installed, so
 # `brew bundle dump` writes it straight back out -- but a fresh machine can
 # never install it again, and every `make fresh` would report it as a failure
 # forever. Drop those. If the lookup fails, leave the Brewfile as dumped.
-disabled=$(sed -nE 's/^(brew|cask) "([^"]+)".*/\2/p' ./Brewfile ./Brewfile.old 2>/dev/null \
+disabled=$(sed -nE 's/^(brew|cask) "([^"]+)".*/\2/p' ./Brewfile ./Brewfile.old "$PERSONAL" 2>/dev/null \
            | sort -u | xargs brew info --json=v2 2>/dev/null \
            | jq -r '(.formulae[] | select(.disabled) | .full_name),
                     (.casks[]    | select(.disabled) | .token)' 2>/dev/null)
 
+disabled_keys=""
 while IFS= read -r pkg ; do
     [ -n "$pkg" ] || continue
     echo "Dropping \"$pkg\": disabled by Homebrew, cannot be installed on a fresh machine."
-    drop_entry "$pkg"
+    disabled_keys+="brew $pkg"$'\n'"cask $pkg"$'\n'
 done <<< "$disabled"
+
+if [ -n "$disabled_keys" ] ; then
+    remove_entries ./Brewfile   <(printf '%s' "$disabled_keys")
+    remove_entries "$PERSONAL"  <(printf '%s' "$disabled_keys")
+fi
+
+# ------------------------------------------------------- personal vs. standard
+
+# The dump lists everything installed here, including the personal-only packages,
+# so they have to be pulled back out or they end up in the file every machine
+# installs. Anything installed here that neither file tracks yet is new, so ask
+# where it belongs once and record the answer.
+personal_keys=$(entry_keys "$PERSONAL" 2>/dev/null | sort -u)
+
+new_keys=$(comm -23 <(printf '%s\n' "$installed_now") \
+                    <(cat <(entry_keys ./Brewfile.old 2>/dev/null) \
+                          <(printf '%s\n' "$personal_keys") | sort -u))
+new_keys=$(grep . <<< "$new_keys")
+
+if [ -n "$new_keys" ] ; then
+    if [ -r /dev/tty ] && [ -t 1 ] ; then
+        echo ""
+        echo "==> New on this machine and not tracked yet"
+        echo ""
+        while IFS= read -r key ; do
+            printf '  %s\n' "$(entry_line "${key%% *}" "${key#* }" ./Brewfile | tail -1)"
+            printf '    [enter] every machine   [p] personal only   > '
+            read -r reply < /dev/tty
+            case "$reply" in
+                p|P|personal)
+                    entry_line "${key%% *}" "${key#* }" ./Brewfile >> "$PERSONAL"
+                    personal_keys+=$'\n'"$key"
+                    echo "    -> $PERSONAL" ;;
+                *)  echo "    -> Brewfile" ;;
+            esac
+        done <<< "$new_keys"
+        echo ""
+    else
+        echo "Not a terminal, so $(grep -c . <<< "$new_keys") new entries went to the standard Brewfile."
+        echo "Re-run \`make sync\` from a terminal to move any of these to $PERSONAL:"
+        sed 's/^/  /' <<< "$new_keys"
+    fi
+fi
+
+# Personal entries are tracked in their own file, so keep them out of this one.
+if [ -n "$personal_keys" ] ; then
+    remove_entries ./Brewfile <(printf '%s\n' "$personal_keys")
+fi
+
+# A personal package that was installed here at the last sync and is gone now was
+# uninstalled on purpose, same rule as below. On a machine that never had it,
+# it is in neither the snapshot nor the dump, so nothing happens.
+if [ -s "$snapshot" ] && [ -n "$personal_keys" ] ; then
+    gone=$(comm -23 <(comm -12 <(printf '%s\n' "$personal_keys" | sort -u) <(sort -u "$snapshot")) \
+                    <(printf '%s\n' "$installed_now"))
+    gone=$(grep . <<< "$gone")
+    if [ -n "$gone" ] ; then
+        while IFS= read -r key ; do
+            echo "Dropping \"${key#* }\" from $PERSONAL: installed at the last sync and gone now."
+        done <<< "$gone"
+        remove_entries "$PERSONAL" <(printf '%s\n' "$gone")
+    fi
+fi
+
+# --------------------------------------------------------------- carry forward
 
 # `brew bundle dump` records only what is installed right now, so anything that
 # failed to install on the last `make fresh` -- a cask whose CDN reset the
@@ -127,6 +200,7 @@ if [ -f "./Brewfile.old" ] ; then
                        <(entry_keys ./Brewfile | sort -u) \
               | while IFS= read -r key ; do
                     grep -qxF "${key#* }" <<< "$disabled" && continue
+                    grep -qxF "$key" <<< "$personal_keys" && continue
                     if [ -s "$snapshot" ] && grep -qxF "$key" "$snapshot" ; then
                         echo "Dropping \"${key#* }\": installed at the last sync and gone now, so it was uninstalled on purpose." >&2
                         continue

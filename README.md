@@ -101,10 +101,11 @@ make fresh
 
 This runs `hack/fresh_install.sh`, which:
 1. Installs Homebrew (if not already present) and puts it on the current shell's `PATH`
-2. Warns about any untrusted taps, which would otherwise make the whole bundle report as failed
-3. Runs `brew bundle --file=./lists/Brewfile` to install all packages, including VSCode extensions (the `vscode "..."` entries). Retries up to `BUNDLE_ATTEMPTS` times (default 3), with the final pass downloading serially
-4. Prints any entry that is still missing, why it failed, and the command to fix it
-5. Reprints every installed package's Homebrew caveats, meaning the `PATH` exports, symlinks and shell-profile lines you still have to add by hand. Homebrew prints these as it installs, thousands of lines before the run ends; collecting them at the bottom is the only way they get read
+2. Asks once whether this is a personal machine and remembers the answer in `etc/profile.txt`. A personal machine also installs `lists/Brewfile.personal`; a professional one never sees it. A non-interactive run assumes professional
+3. Warns about any untrusted taps, which would otherwise make the whole bundle report as failed
+4. Runs `brew bundle --file=./lists/Brewfile` to install all packages, including VSCode extensions (the `vscode "..."` entries). Retries up to `BUNDLE_ATTEMPTS` times (default 3), with the final pass downloading serially
+5. Prints any entry that is still missing, why it failed, and the command to fix it
+6. Reprints every installed package's Homebrew caveats, meaning the `PATH` exports, symlinks and shell-profile lines you still have to add by hand. Homebrew prints these as it installs, thousands of lines before the run ends; collecting them at the bottom is the only way they get read
 
 Downloads run at `HOMEBREW_DOWNLOAD_CONCURRENCY=4` rather than Homebrew's default (2x CPU cores), because several third-party CDNs reset connections under heavier parallelism. Both that and `BUNDLE_ATTEMPTS` can be overridden in the environment.
 
@@ -140,9 +141,23 @@ This runs `hack/generate_install_lists.sh`, which:
 3. Carries forward any entry the dump left out because it is not installed here, under a `# --- carried forward ---` block at the end of the file. `brew bundle dump` records only what is installed *right now*, so without this a cask that failed to download during `make fresh` would quietly disappear from the tracked list instead of being retried
 4. Drops anything you uninstalled on purpose. A package you removed and a package that never installed look the same in a dump, so `make sync` keeps a snapshot of what was installed here last time, in `etc/installed.txt` (gitignored, one per machine). Present in that snapshot and absent now means you removed it, so it leaves the Brewfile instead of being carried forward. On a machine with no snapshot yet, the first `make sync` carries everything forward and writes the snapshot, and removals are detected from the next run on
 5. Drops anything Homebrew has disabled. A disabled package keeps working once installed, so the dump writes it back out, but no fresh machine can ever install it again
-6. Regenerates `lists/vsc_install_list.{sh,ps1}` from `code --list-extensions` (macOS installs extensions from the Brewfile; these lists are for Windows)
+6. Asks where each newly installed package belongs, once per package: every machine, or personal only. Personal ones move to `lists/Brewfile.personal` and are kept out of the shared `lists/Brewfile`. Outside a terminal there is nobody to ask, so new entries stay in the shared list and get named in the output
+7. Regenerates `lists/vsc_install_list.{sh,ps1}` from `code --list-extensions` (macOS installs extensions from the Brewfile; these lists are for Windows)
 
 Commit and push the updated files to keep your setup tracked in git.
+
+### Personal vs. professional machines
+
+Two tracked lists:
+
+| File | Installed where |
+|---|---|
+| `lists/Brewfile` | Every machine |
+| `lists/Brewfile.personal` | Only where `etc/profile.txt` says `personal` |
+
+`etc/profile.txt` holds one word, `personal` or `professional`, and is gitignored so each machine keeps its own. `make fresh` asks for it the first time and you can edit it whenever the answer changes.
+
+To move a package between the two, cut its line from one file and paste it into the other. `make sync` will not move it back: an entry tracked in `Brewfile.personal` is removed from the dump before the shared list is written.
 
 ## Resume Automation
 
