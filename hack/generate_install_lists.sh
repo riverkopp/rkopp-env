@@ -113,10 +113,21 @@ ACTIVE_PROFILE="./Brewfile.$PROFILE"
 # `brew bundle dump` writes it straight back out -- but a fresh machine can
 # never install it again, and every `make fresh` would report it as a failure
 # forever. Drop those. If the lookup fails, leave the Brewfile as dumped.
-disabled=$(sed -nE 's/^(brew|cask) "([^"]+)".*/\2/p' ./Brewfile ./Brewfile.old "${PROFILE_FILES[@]}" 2>/dev/null \
-           | sort -u | xargs brew info --json=v2 2>/dev/null \
-           | jq -r '(.formulae[] | select(.disabled) | .full_name),
-                    (.casks[]    | select(.disabled) | .token)' 2>/dev/null)
+# `brew info` resolves every name in one call and fails the whole call if even
+# one of them is unavailable, a formula from a tap this machine does not have,
+# say. So ask only about the lists that apply here. The other profile's taps
+# are not tapped on this machine, and including its names aborted the lookup
+# and skipped this pruning without a word.
+info=$(sed -nE 's/^(brew|cask) "([^"]+)".*/\2/p' ./Brewfile ./Brewfile.old "$ACTIVE_PROFILE" 2>/dev/null \
+       | sort -u | xargs brew info --json=v2 2>/dev/null)
+
+disabled=""
+if [ -z "$info" ] ; then
+    echo "Warning: brew info resolved none of the tracked names, so nothing was checked for being disabled."
+else
+    disabled=$(jq -r '(.formulae[] | select(.disabled) | .full_name),
+                      (.casks[]    | select(.disabled) | .token)' <<< "$info" 2>/dev/null)
+fi
 
 disabled_keys=""
 while IFS= read -r pkg ; do
@@ -125,11 +136,11 @@ while IFS= read -r pkg ; do
     disabled_keys+="brew $pkg"$'\n'"cask $pkg"$'\n'
 done <<< "$disabled"
 
+# Same rule as the uninstall check below: only this machine's own lists get
+# rewritten. The other profile's list is judged on the machine it belongs to.
 if [ -n "$disabled_keys" ] ; then
     remove_entries ./Brewfile <(printf '%s' "$disabled_keys")
-    for f in "${PROFILE_FILES[@]}" ; do
-        remove_entries "$f" <(printf '%s' "$disabled_keys")
-    done
+    remove_entries "$ACTIVE_PROFILE" <(printf '%s' "$disabled_keys")
 fi
 
 # ----------------------------------------------------- which machines get it
@@ -142,7 +153,9 @@ profile_keys=$(for f in "${PROFILE_FILES[@]}" ; do
                    entry_keys "$f" 2>/dev/null
                done | sort -u)
 
-new_keys=$(comm -23 <(printf '%s\n' "$installed_now") \
+# Read the file rather than $installed_now, so a package the pruning above just
+# dropped is not offered as new a few lines later.
+new_keys=$(comm -23 <(entry_keys ./Brewfile | sort -u) \
                     <(cat <(entry_keys ./Brewfile.old 2>/dev/null) \
                           <(printf '%s\n' "$profile_keys") | sort -u))
 new_keys=$(grep . <<< "$new_keys")
