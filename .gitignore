@@ -124,3 +124,6 @@ docs/pdf/*
 
 # Captured terminal logs from `make fresh` / `make sync` runs
 etc/*.txt
+
+# Claude Code: share project settings, keep personal overrides local
+.claude/settings.local.json
