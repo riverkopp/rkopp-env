@@ -104,14 +104,15 @@ This runs `hack/fresh_install.sh`, which:
 2. Asks once whether this is a personal machine and remembers the answer in `etc/profile.txt`. A personal machine also installs `lists/Brewfile.personal`; a professional one never sees it. A non-interactive run assumes professional
 3. Warns about any untrusted taps, which would otherwise make the whole bundle report as failed
 4. Runs `brew bundle --file=./lists/Brewfile` to install all packages, including VSCode extensions (the `vscode "..."` entries). Retries up to `BUNDLE_ATTEMPTS` times (default 3), with the final pass downloading serially
-5. Prints any entry that is still missing, why it failed, and the command to fix it
-6. Reprints every installed package's Homebrew caveats, meaning the `PATH` exports, symlinks and shell-profile lines you still have to add by hand. Homebrew prints these as it installs, thousands of lines before the run ends; collecting them at the bottom is the only way they get read
+5. Symlinks `docker` to `podman` if podman is installed and nothing else claims the name
+6. Prints any entry that is still missing, why it failed, and the command to fix it
+7. Reprints every installed package's Homebrew caveats, meaning the `PATH` exports, symlinks and shell-profile lines you still have to add by hand. Homebrew prints these as it installs, thousands of lines before the run ends; collecting them at the bottom is the only way they get read
 
 Downloads run at `HOMEBREW_DOWNLOAD_CONCURRENCY=4` rather than Homebrew's default (2x CPU cores), because several third-party CDNs reset connections under heavier parallelism. Both that and `BUNDLE_ATTEMPTS` can be overridden in the environment.
 
 ### Post-Install Steps (manual)
 
-`make fresh` ends by printing the caveats Homebrew asked for, so work through those first. Three more things it cannot do for you:
+`make fresh` ends by printing the caveats Homebrew asked for, so work through those first. Two more things it cannot do for you, and one it now handles on its own:
 
 1. **Install [Oh My Zsh](https://ohmyz.sh/)**, which is not a Homebrew package and so has no caveats of its own. Do this *before* the shell-profile edits below, because its installer rewrites `~/.zshrc` and would drop them:
 
@@ -125,21 +126,23 @@ Downloads run at `HOMEBREW_DOWNLOAD_CONCURRENCY=4` rather than Homebrew's defaul
    echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
    ```
 
-3. **Give Podman the `docker` name.** The Brewfile installs `podman`, `podman-compose` and Podman Desktop, but no `docker` command. Point one at the other with a symlink:
+3. **Podman as `docker`.** This one `make fresh` now does for you. Once podman is installed it symlinks `$(brew --prefix)/bin/docker` to `$(brew --prefix)/bin/podman`, and it stays out of the way if anything already owns that name or a `docker` is already on `PATH`. Re-running changes nothing. By hand it is:
 
    ```sh
-   podman machine init && podman machine start          # only needed once per machine
    ln -s "$(brew --prefix)/bin/podman" "$(brew --prefix)/bin/docker"
    ```
 
-   Do not settle for `alias docker=podman`. An alias only exists inside an interactive zsh session, and most things that call Docker are not one. Makefiles, `#!/bin/sh` scripts, IDE run configurations, test harnesses like Testcontainers, and anything a GUI app launches all exec `docker` directly, never read your `.zshrc`, and still fail with `docker: command not found`. A symlink sits on `PATH`, so every one of them finds it. This is the step that has saved the most time on work machines.
+   Do not settle for `alias docker=podman`. An alias only exists inside an interactive zsh session, and most things that call Docker are not one. Makefiles, `#!/bin/sh` scripts, IDE run configurations, test harnesses like Testcontainers, and anything a GUI app launches all exec `docker` directly, never read your `.zshrc`, and still fail with `docker: command not found`. A symlink sits on `PATH`, so every one of them finds it. This is the trick that has saved the most time on work machines.
 
-   Tools that skip the CLI and talk to the daemon socket need that in the usual place too:
+   Two related steps stay manual, since one downloads a virtual machine and the other needs `sudo`:
 
    ```sh
-   sudo podman-mac-helper install
+   podman machine init && podman machine start                 # the VM containers run in
+   sudo podman-mac-helper install                              # daemon socket in the usual place
    podman machine stop && podman machine start
    ```
+
+   The socket step only matters for tools that skip the CLI and talk to `/var/run/docker.sock` directly, such as the Docker SDKs and Testcontainers.
 
    If you ever install Docker Desktop or the `docker` formula on the same machine, delete the symlink first. Two things cannot own `$(brew --prefix)/bin/docker`.
 

@@ -113,6 +113,48 @@ done
 # above already installed them. lists/vsc_install_list.ps1 still exists for
 # Windows, which has no brew.
 
+# ------------------------------------------------------------ podman as docker
+
+# Homebrew's podman ships no `docker` command, and `alias docker=podman` only
+# exists inside an interactive shell. Makefiles, /bin/sh scripts, IDE run
+# configurations, Testcontainers and anything a GUI app launches exec `docker`
+# directly, never read .zshrc, and still fail with "command not found". A
+# symlink on PATH is the one form all of them see.
+link_podman_as_docker() {
+    local podman docker_link
+
+    # Point at brew's own symlink, not the Cellar path behind it, so a podman
+    # upgrade does not leave this dangling.
+    podman="$(brew --prefix)/bin/podman"
+    docker_link="$(brew --prefix)/bin/docker"
+
+    [ -x "$podman" ] || return 0
+
+    # Already ours, so re-running make fresh changes nothing.
+    if [ -L "$docker_link" ] && [ "$(readlink "$docker_link")" = "$podman" ]; then
+        return 0
+    fi
+
+    if [ -e "$docker_link" ] || [ -L "$docker_link" ]; then
+        echo "${yellow}Left $docker_link alone:${reset} something else owns it."
+        return 0
+    fi
+
+    if command -v docker >/dev/null 2>&1; then
+        echo "${yellow}Left docker alone:${reset} $(command -v docker) is already on PATH."
+        return 0
+    fi
+
+    if ln -s "$podman" "$docker_link" ; then
+        echo "${green}Linked docker to podman${reset} at $docker_link"
+        echo "  Run \`podman machine init && podman machine start\` once before using it."
+    else
+        echo "${red}Could not link${reset} $docker_link to podman; do it by hand."
+    fi
+}
+
+link_podman_as_docker
+
 # ---------------------------------------------------------- post-install notes
 
 # Homebrew prints each package's caveats -- the PATH exports, symlinks and
