@@ -69,6 +69,8 @@ brew "gnu-sed"
 brew "go"
 # Task is a task runner/build tool that aims to be simpler and easier to use
 brew "go-task"
+# Open source programming language to build simple/reliable/efficient software
+brew "go@1.22"
 # Command-line Golang template processor
 brew "gomplate"
 # Language server for the Go language
@@ -221,7 +223,7 @@ cask "jordanbaird-ice"
 cask "keepingyouawake"
 # Simple application that will prevent iTunes or Apple Music from launching
 cask "notunes"
-# Graphical container manager for the podman engine
+# Browse, manage, inspect containers and images
 cask "podman-desktop"
 # Control your tools with a few keystrokes
 cask "raycast"

@@ -11,3 +11,7 @@ cask "godot"
 cask "discord"
 # Music streaming
 cask "spotify"
+# Open-source software for live streaming and screen recording
+cask "obs"
+# Messaging app with a focus on speed and security
+cask "telegram"
