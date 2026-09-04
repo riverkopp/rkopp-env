@@ -69,8 +69,6 @@ brew "gnu-sed"
 brew "go"
 # Task is a task runner/build tool that aims to be simpler and easier to use
 brew "go-task"
-# Open source programming language to build simple/reliable/efficient software
-brew "go@1.22"
 # Command-line Golang template processor
 brew "gomplate"
 # Language server for the Go language

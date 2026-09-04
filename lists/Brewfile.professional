@@ -20,3 +20,5 @@ cask "codex"
 cask "okta-verify"
 # Kubernetes and container management on the desktop
 cask "rancher"
+# Open source programming language to build simple/reliable/efficient software
+brew "go@1.22"
