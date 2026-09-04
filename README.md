@@ -99,9 +99,12 @@ make fresh
 ```
 
 This runs `hack/fresh_install.sh`, which:
-1. Installs Homebrew (if not already present)
-2. Runs `brew bundle --file=./lists/Brewfile` to install all packages
-3. Runs `lists/vsc_install_list.sh` to install all VSCode extensions
+1. Installs Homebrew (if not already present) and puts it on the current shell's `PATH`
+2. Warns about any untrusted taps, which would otherwise make the whole bundle report as failed
+3. Runs `brew bundle --file=./lists/Brewfile` to install all packages, including VSCode extensions (the `vscode "..."` entries). Retries up to `BUNDLE_ATTEMPTS` times (default 3), with the final pass downloading serially
+4. Prints any entry that is still missing, why it failed, and the command to fix it
+
+Downloads run at `HOMEBREW_DOWNLOAD_CONCURRENCY=4` rather than Homebrew's default (2x CPU cores), because several third-party CDNs reset connections under heavier parallelism. Both that and `BUNDLE_ATTEMPTS` can be overridden in the environment.
 
 ### Syncing Your Current Machine State
 
@@ -113,7 +116,7 @@ make sync
 
 This runs `hack/generate_install_lists.sh`, which:
 1. Regenerates `lists/Brewfile` from your current `brew` state via `brew bundle dump`
-2. Regenerates `lists/vsc_install_list.sh` from `code --list-extensions`
+2. Regenerates `lists/vsc_install_list.{sh,ps1}` from `code --list-extensions` (macOS installs extensions from the Brewfile; these lists are for Windows)
 3. Runs `brew update && brew upgrade` to keep everything current
 
 Commit and push the updated files to keep your setup tracked in git.

@@ -6,10 +6,10 @@ help:  ## this help
 init:  ## bootstrap a fork: reset masters to templates and clear personal content (usage: make init [FORCE=1])
 	./hack/init.sh
 
-sync:  ## update Brewfile and ./vsc_install_list.sh
+sync:  ## update Brewfile and ./vsc_install_list.{sh,ps1}
 	./hack/generate_install_lists.sh
 
-fresh:  ## do fresh install of brew, vsc, and all related extensions/applications
+fresh:  ## install brew + everything in the Brewfile, then report anything that failed and how to fix it
 	./hack/fresh_install.sh
 
 docs:  ## convert docs/*.md to PDF in docs/pdf/ (usage: make docs [FILE=name])
