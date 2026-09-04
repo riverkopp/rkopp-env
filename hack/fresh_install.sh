@@ -5,8 +5,9 @@ set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BREWFILE="$REPO_ROOT/lists/Brewfile"
 BUNDLE_ATTEMPTS="${BUNDLE_ATTEMPTS:-3}"
-PERSONAL="$REPO_ROOT/lists/Brewfile.personal"
 PROFILE_FILE="$REPO_ROOT/etc/profile.txt"
+
+. "$REPO_ROOT/hack/profile.sh"
 
 # Third-party CDNs (chef.io, waterfox, virtualbox, okta) reset connections when
 # Homebrew's default concurrency (2x CPU cores) hits them all at once, which
@@ -40,29 +41,20 @@ fi
 
 # ------------------------------------------------------------- machine profile
 
-# Personal-only packages (games, music, chat) are tracked in their own file so a
-# work machine never installs them. Which kind of machine this is gets asked once
-# and remembered in etc/profile.txt, which is gitignored. A non-interactive run
-# assumes professional, the harmless way to be wrong.
-if [ ! -s "$PROFILE_FILE" ]; then
-    if [ -r /dev/tty ] && [ -t 1 ]; then
-        printf 'Personal machine? Personal also installs lists/Brewfile.personal. [y/N] > '
-        read -r reply < /dev/tty
-        case "$reply" in [yY]*) echo personal ;; *) echo professional ;; esac > "$PROFILE_FILE"
-    else
-        echo professional > "$PROFILE_FILE"
-    fi
-    echo "Machine profile set to $(cat "$PROFILE_FILE"); edit etc/profile.txt to change it."
-fi
+# Packages that belong to only one kind of machine are tracked in their own
+# file, so a work laptop never installs the games and a personal one never
+# installs the work tooling.
+PROFILE="$(machine_profile "$PROFILE_FILE")"
+PROFILE_BREWFILE="$REPO_ROOT/lists/Brewfile.$PROFILE"
 
 # Everything downstream reads one Brewfile, so hand it both files joined rather
 # than teaching the bundle, the check and the caveats pass about a second path.
-if [ "$(cat "$PROFILE_FILE" 2>/dev/null)" = personal ] && [ -s "$PERSONAL" ]; then
+if [ -s "$PROFILE_BREWFILE" ]; then
     COMBINED="$(mktemp)"
     trap 'rm -f "$COMBINED"' EXIT
-    cat "$BREWFILE" "$PERSONAL" > "$COMBINED"
+    cat "$BREWFILE" "$PROFILE_BREWFILE" > "$COMBINED"
     BREWFILE="$COMBINED"
-    echo "${bold}Personal machine:${reset} including lists/Brewfile.personal"
+    echo "${bold}${PROFILE} machine:${reset} including lists/Brewfile.$PROFILE"
 fi
 
 # ----------------------------------------------------------------- preflight

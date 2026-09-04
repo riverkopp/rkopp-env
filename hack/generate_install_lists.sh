@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+. "$(dirname "${BASH_SOURCE[0]}")/profile.sh"
+PROFILE="$(machine_profile ./etc/profile.txt)"
+
 # If Visual Studio Code install list bash script exists, remove it
 if [ -f "./lists/vsc_install_list.sh" ] ; then
     rm "./lists/vsc_install_list.sh"
@@ -100,16 +103,17 @@ fi
 snapshot="../etc/installed.txt"
 installed_now=$(entry_keys ./Brewfile | sort -u)
 
-# Personal-only packages live in their own file. `make fresh` installs it on top
-# of the standard Brewfile on a personal machine and ignores it everywhere else,
-# so anything in here never lands on a work machine.
-PERSONAL="./Brewfile.personal"
+# Packages that belong to only one kind of machine. `make fresh` installs the
+# file matching etc/profile.txt on top of the standard Brewfile and ignores the
+# other one, so neither list can leak onto the wrong machine.
+PROFILE_FILES=(./Brewfile.personal ./Brewfile.professional)
+ACTIVE_PROFILE="./Brewfile.$PROFILE"
 
 # Homebrew keeps a disabled package working once it is installed, so
 # `brew bundle dump` writes it straight back out -- but a fresh machine can
 # never install it again, and every `make fresh` would report it as a failure
 # forever. Drop those. If the lookup fails, leave the Brewfile as dumped.
-disabled=$(sed -nE 's/^(brew|cask) "([^"]+)".*/\2/p' ./Brewfile ./Brewfile.old "$PERSONAL" 2>/dev/null \
+disabled=$(sed -nE 's/^(brew|cask) "([^"]+)".*/\2/p' ./Brewfile ./Brewfile.old "${PROFILE_FILES[@]}" 2>/dev/null \
            | sort -u | xargs brew info --json=v2 2>/dev/null \
            | jq -r '(.formulae[] | select(.disabled) | .full_name),
                     (.casks[]    | select(.disabled) | .token)' 2>/dev/null)
@@ -122,21 +126,25 @@ while IFS= read -r pkg ; do
 done <<< "$disabled"
 
 if [ -n "$disabled_keys" ] ; then
-    remove_entries ./Brewfile   <(printf '%s' "$disabled_keys")
-    remove_entries "$PERSONAL"  <(printf '%s' "$disabled_keys")
+    remove_entries ./Brewfile <(printf '%s' "$disabled_keys")
+    for f in "${PROFILE_FILES[@]}" ; do
+        remove_entries "$f" <(printf '%s' "$disabled_keys")
+    done
 fi
 
-# ------------------------------------------------------- personal vs. standard
+# ----------------------------------------------------- which machines get it
 
-# The dump lists everything installed here, including the personal-only packages,
-# so they have to be pulled back out or they end up in the file every machine
-# installs. Anything installed here that neither file tracks yet is new, so ask
-# where it belongs once and record the answer.
-personal_keys=$(entry_keys "$PERSONAL" 2>/dev/null | sort -u)
+# The dump lists everything installed here, including the packages meant for
+# only this kind of machine, so those have to be pulled back out or they end up
+# in the file every machine installs. Anything installed here that no file
+# tracks yet is new, so ask where it belongs once and record the answer.
+profile_keys=$(for f in "${PROFILE_FILES[@]}" ; do
+                   entry_keys "$f" 2>/dev/null
+               done | sort -u)
 
 new_keys=$(comm -23 <(printf '%s\n' "$installed_now") \
                     <(cat <(entry_keys ./Brewfile.old 2>/dev/null) \
-                          <(printf '%s\n' "$personal_keys") | sort -u))
+                          <(printf '%s\n' "$profile_keys") | sort -u))
 new_keys=$(grep . <<< "$new_keys")
 
 if [ -n "$new_keys" ] ; then
@@ -146,41 +154,47 @@ if [ -n "$new_keys" ] ; then
         echo ""
         while IFS= read -r key ; do
             printf '  %s\n' "$(entry_line "${key%% *}" "${key#* }" ./Brewfile | tail -1)"
-            printf '    [enter] every machine   [p] personal only   > '
+            printf '    [enter] every machine   [p] personal only   [w] work only   > '
             read -r reply < /dev/tty
             case "$reply" in
-                p|P|personal)
-                    entry_line "${key%% *}" "${key#* }" ./Brewfile >> "$PERSONAL"
-                    personal_keys+=$'\n'"$key"
-                    echo "    -> $PERSONAL" ;;
-                *)  echo "    -> Brewfile" ;;
+                p|P|personal)     target=./Brewfile.personal ;;
+                w|W|professional) target=./Brewfile.professional ;;
+                *)                target="" ;;
             esac
+            if [ -n "$target" ] ; then
+                entry_line "${key%% *}" "${key#* }" ./Brewfile >> "$target"
+                profile_keys+=$'\n'"$key"
+                echo "    -> $target"
+            else
+                echo "    -> Brewfile"
+            fi
         done <<< "$new_keys"
         echo ""
     else
         echo "Not a terminal, so $(grep -c . <<< "$new_keys") new entries went to the standard Brewfile."
-        echo "Re-run \`make sync\` from a terminal to move any of these to $PERSONAL:"
+        echo "Re-run \`make sync\` from a terminal to move any of these to a profile list:"
         sed 's/^/  /' <<< "$new_keys"
     fi
 fi
 
-# Personal entries are tracked in their own file, so keep them out of this one.
-if [ -n "$personal_keys" ] ; then
-    remove_entries ./Brewfile <(printf '%s\n' "$personal_keys")
+# Those entries are tracked in their own file, so keep them out of this one.
+if [ -n "$profile_keys" ] ; then
+    remove_entries ./Brewfile <(printf '%s\n' "$profile_keys")
 fi
 
-# A personal package that was installed here at the last sync and is gone now was
-# uninstalled on purpose, same rule as below. On a machine that never had it,
-# it is in neither the snapshot nor the dump, so nothing happens.
-if [ -s "$snapshot" ] && [ -n "$personal_keys" ] ; then
-    gone=$(comm -23 <(comm -12 <(printf '%s\n' "$personal_keys" | sort -u) <(sort -u "$snapshot")) \
+# A package in this machine's own profile list that was installed at the last
+# sync and is gone now was uninstalled on purpose, same rule as below. The other
+# profile's list is never touched here: its packages are not supposed to be
+# installed on this machine, so their absence says nothing.
+if [ -s "$snapshot" ] && [ -f "$ACTIVE_PROFILE" ] ; then
+    gone=$(comm -23 <(comm -12 <(entry_keys "$ACTIVE_PROFILE" | sort -u) <(sort -u "$snapshot")) \
                     <(printf '%s\n' "$installed_now"))
     gone=$(grep . <<< "$gone")
     if [ -n "$gone" ] ; then
         while IFS= read -r key ; do
-            echo "Dropping \"${key#* }\" from $PERSONAL: installed at the last sync and gone now."
+            echo "Dropping \"${key#* }\" from $ACTIVE_PROFILE: installed at the last sync and gone now."
         done <<< "$gone"
-        remove_entries "$PERSONAL" <(printf '%s\n' "$gone")
+        remove_entries "$ACTIVE_PROFILE" <(printf '%s\n' "$gone")
     fi
 fi
 
@@ -200,7 +214,7 @@ if [ -f "./Brewfile.old" ] ; then
                        <(entry_keys ./Brewfile | sort -u) \
               | while IFS= read -r key ; do
                     grep -qxF "${key#* }" <<< "$disabled" && continue
-                    grep -qxF "$key" <<< "$personal_keys" && continue
+                    grep -qxF "$key" <<< "$profile_keys" && continue
                     if [ -s "$snapshot" ] && grep -qxF "$key" "$snapshot" ; then
                         echo "Dropping \"${key#* }\": installed at the last sync and gone now, so it was uninstalled on purpose." >&2
                         continue

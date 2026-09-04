@@ -5,7 +5,6 @@ tap "databricks/tap", trusted: true
 tap "derailed/k9s", trusted: { formulae: ["k9s"] }
 tap "goreleaser/tap", trusted: true
 tap "hashicorp/tap", trusted: true
-tap "libkrun/krun", trusted: true
 tap "macpaw/taps", trusted: true
 tap "oven-sh/bun", trusted: true
 tap "powershell/tap", trusted: true
@@ -150,8 +149,6 @@ brew "powershell"
 brew "pyenv"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.10"
-# Unified tool to manage your Rancher server
-brew "rancher-cli"
 # CLI proxy to minimize LLM token consumption
 brew "rtk"
 # Powerful, clean, object-oriented scripting language
@@ -206,22 +203,14 @@ brew "confluentinc/tap/cli", trusted: true
 brew "hashicorp/tap/terraform", trusted: true
 # Vault
 brew "hashicorp/tap/vault", trusted: true
-# CLI tool to start Linux KVM or macOS HVF VMs using the libkrun
-brew "libkrun/krun/krunkit", trusted: true
-# Manage lightweight VMs created from OCI images
-brew "libkrun/krun/krunvm", trusted: true
 # WarpStream Kafka-compatible agent
 brew "warpstreamlabs/tap/warpstream", trusted: true
-# All-in-one installer for the tools you need to manage your Chef infrastructure
-cask "chef-workstation"
 # Anthropic's official Claude AI desktop app
 cask "claude"
 # Terminal-based AI coding assistant
 cask "claude-code"
 # Clipboard extension app
 cask "clipy"
-# OpenAI's coding agent that runs in your terminal
-cask "codex"
 # Desktop client for GitHub repositories
 cask "github"
 # Terminal emulator as alternative to Apple's Terminal app
@@ -232,8 +221,6 @@ cask "jordanbaird-ice"
 cask "keepingyouawake"
 # Simple application that will prevent iTunes or Apple Music from launching
 cask "notunes"
-# Identity verification provider
-cask "okta-verify"
 # Graphical container manager for the podman engine
 cask "podman-desktop"
 # Kubernetes and container management on the desktop
