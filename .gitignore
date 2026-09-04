@@ -121,3 +121,6 @@ dmypy.json
 docs/pdf/*
 !docs/pdf/.gitkeep
 !docs/prospectives/.gitkeep
+
+# Captured terminal logs from `make fresh` / `make sync` runs
+etc/*.txt
