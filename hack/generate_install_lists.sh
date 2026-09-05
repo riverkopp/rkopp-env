@@ -3,25 +3,25 @@
 . "$(dirname "${BASH_SOURCE[0]}")/profile.sh"
 PROFILE="$(machine_profile ./etc/profile.txt)"
 
-# If Visual Studio Code install list bash script exists, remove it
-if [ -f "./lists/vsc_install_list.sh" ] ; then
-    rm "./lists/vsc_install_list.sh"
-fi
+# Rewrite the VSCode extension lists from what is installed right now. Only on
+# a machine that actually has `code`: without it `code --list-extensions`
+# returns nothing, and the old behaviour deleted both files first, so a sync
+# from a machine using a different editor wiped the whole list. The lists are
+# kept as a record of what was in use, so leave them alone instead.
+if command -v code > /dev/null 2>&1 ; then
+    rm -f "./lists/vsc_install_list.sh" "./lists/vsc_install_list.ps1"
 
-# If Visual Studio Code install list PowerShell script exists, remove it
-if [ -f "./lists/vsc_install_list.ps1" ] ; then
-    rm "./lists/vsc_install_list.ps1"
+    echo "#!/bin/bash" >> ./lists/vsc_install_list.sh
+    echo "#!/usr/bin/env pwsh" >> ./lists/vsc_install_list.ps1
+    echo "" >> ./lists/vsc_install_list.ps1
+    echo "# Install all VSCode extensions from the list" >> ./lists/vsc_install_list.ps1
+    code --list-extensions | while read -r ext; do
+        echo "code --install-extension $ext" >> ./lists/vsc_install_list.sh
+        echo "code --install-extension $ext" >> ./lists/vsc_install_list.ps1
+    done
+else
+    echo "No \`code\` on this machine, so lists/vsc_install_list.* were left as they are."
 fi
-
-# Get all current VSCode extensions and dump them to both files
-echo "#!/bin/bash" >> ./lists/vsc_install_list.sh
-echo "#!/usr/bin/env pwsh" >> ./lists/vsc_install_list.ps1
-echo "" >> ./lists/vsc_install_list.ps1
-echo "# Install all VSCode extensions from the list" >> ./lists/vsc_install_list.ps1
-code --list-extensions | while read -r ext; do
-    echo "code --install-extension $ext" >> ./lists/vsc_install_list.sh
-    echo "code --install-extension $ext" >> ./lists/vsc_install_list.ps1
-done
 
 # If Brewfile exists, rename it to Brewfile.old
 if [ -f "./lists/Brewfile" ] ; then

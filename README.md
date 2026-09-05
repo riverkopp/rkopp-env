@@ -163,7 +163,7 @@ This runs `hack/generate_install_lists.sh`, which:
 4. Drops anything you uninstalled on purpose. A package you removed and a package that never installed look the same in a dump, so `make sync` keeps a snapshot of what was installed here last time, in `etc/installed.txt` (gitignored, one per machine). Present in that snapshot and absent now means you removed it, so it leaves the Brewfile instead of being carried forward. On a machine with no snapshot yet, the first `make sync` carries everything forward and writes the snapshot, and removals are detected from the next run on
 5. Drops anything Homebrew has disabled. A disabled package keeps working once installed, so the dump writes it back out, but no fresh machine can ever install it again
 6. Asks where each newly installed package belongs, once per package: every machine, personal only, or work only. The one-sided ones move to `lists/Brewfile.personal` or `lists/Brewfile.professional` and are kept out of the shared `lists/Brewfile`. Outside a terminal there is nobody to ask, so new entries stay in the shared list and get named in the output
-7. Regenerates `lists/vsc_install_list.{sh,ps1}` from `code --list-extensions` (macOS installs extensions from the Brewfile; these lists are for Windows)
+7. Regenerates `lists/vsc_install_list.{sh,ps1}` from `code --list-extensions` (macOS installs extensions from the Brewfile; these lists are for Windows). Only on a machine that has `code`. Without it there is nothing to list, so the existing lists are left alone and kept as a record of the extensions that were in use
 
 Commit and push the updated files to keep your setup tracked in git.
 
