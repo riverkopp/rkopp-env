@@ -162,6 +162,12 @@ new_keys=$(grep . <<< "$new_keys")
 
 if [ -n "$new_keys" ] ; then
     if [ -r /dev/tty ] && [ -t 1 ] ; then
+        # `brew update` and `brew upgrade` run for minutes above, and anything
+        # typed while waiting on them is still queued in the terminal. A stray
+        # newline would answer the first prompt before it is even printed, so
+        # throw away whatever is already buffered.
+        read -r -d '' -t 1 -n 10000 _ < /dev/tty
+
         echo ""
         echo "==> New on this machine and not tracked yet"
         echo ""

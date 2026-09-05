@@ -15,3 +15,7 @@ cask "spotify"
 cask "obs"
 # Messaging app with a focus on speed and security
 cask "telegram"
+# Easiest, most secure way to use WireGuard and 2FA
+brew "tailscale"
+# Netcat-like tool over Tailscale's data plane, without its control plane
+brew "tailcat"

@@ -237,6 +237,25 @@ When generating resumes or cover letters in a Claude Code chat session, always s
 - When updating machine state manifests, prefer `make sync` to regenerate them.
 - If editing lists manually is requested, preserve current format and ordering style as much as possible.
 
+### New Package Prompt Flow
+`make sync` asks about every package that is installed on this machine but not tracked in any list yet. One prompt per package:
+
+```
+brew "tailcat"
+  [enter] every machine   [p] personal only   [w] work only   >
+```
+
+- **enter** keeps it in `lists/Brewfile`, the list every machine installs.
+- **p** moves it to `lists/Brewfile.personal`, installed only where `etc/profile.txt` says `personal`.
+- **w** moves it to `lists/Brewfile.professional`, installed only where that file says `professional`.
+
+The answer sticks. Once a package lives in a profile list, `make sync` keeps it out of the shared Brewfile and never asks again.
+
+Rules when working on this flow:
+- The prompt only runs on a real terminal. Outside one, new packages stay in the shared Brewfile and the script prints their names so they can be sorted later by re-running `make sync`.
+- If a package landed in the wrong list, move the `brew`/`cask` line and its description comment by hand. Both move together, one comment line directly above its entry.
+- `make sync` only drops uninstalled packages from the list matching this machine. It never edits the other profile's list.
+
 ### Workflow Safety Rules
 - Keep release tag formats unchanged unless explicitly requested:
 	- `YY.MM.DD.HHMM-pdf`
