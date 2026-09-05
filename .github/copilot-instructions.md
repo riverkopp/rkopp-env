@@ -234,6 +234,7 @@ When generating resumes or cover letters in a Claude Code chat session, always s
 
 ### Environment Manifest Rules
 - Treat lists/Brewfile and lists/vsc_install_list.sh as generated artifacts.
+- The VSCode lists are only regenerated on a machine that has `code`. On any other machine `make sync` leaves them untouched, because there is nothing to list and an empty regeneration would erase the record. Do not "fix" that by regenerating them unconditionally.
 - When updating machine state manifests, prefer `make sync` to regenerate them.
 - If editing lists manually is requested, preserve current format and ordering style as much as possible.
 
