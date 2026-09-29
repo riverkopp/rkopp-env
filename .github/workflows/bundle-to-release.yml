@@ -13,6 +13,7 @@ jobs:
   release:
     name: Release Bundle
     runs-on: ubuntu-latest
+    environment: release
     permissions:
       contents: write
 
@@ -33,10 +34,11 @@ jobs:
 
       - name: Create release and upload files
         run: |
-          gh release create "${{ steps.tag.outputs.tag }}" \
-            --title "${{ steps.tag.outputs.tag }}" \
+          gh release create "$TAG" \
+            --title "$TAG" \
             --latest \
             lists/Brewfile \
             lists/vsc_install_list.sh
         env:
+          TAG: ${{ steps.tag.outputs.tag }}
           GH_TOKEN: ${{ secrets.RESUME_PAT }}

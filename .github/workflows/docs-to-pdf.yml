@@ -13,6 +13,7 @@ jobs:
   convert-to-pdf:
     name: Build PDF
     runs-on: ubuntu-latest
+    environment: release
     permissions:
       contents: write
 
@@ -48,9 +49,10 @@ jobs:
 
       - name: Create release and upload PDFs
         run: |
-          gh release create "${{ steps.tag.outputs.tag }}" \
-            --title "${{ steps.tag.outputs.tag }}" \
+          gh release create "$TAG" \
+            --title "$TAG" \
             --latest \
             docs/pdf/*.pdf
         env:
+          TAG: ${{ steps.tag.outputs.tag }}
           GH_TOKEN: ${{ secrets.RESUME_PAT }}
