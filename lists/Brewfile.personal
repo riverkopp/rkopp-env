@@ -19,3 +19,5 @@ cask "telegram"
 brew "tailscale"
 # Netcat-like tool over Tailscale's data plane, without its control plane
 brew "tailcat"
+# Software for Logitech devices
+cask "logi-options+"
