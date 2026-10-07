@@ -427,5 +427,44 @@
 - OCI Streaming service architecture and its managed Kafka offering
 - OCI networking, IAM, and tenancy model
 
+### Gaps - Confluent / IBM Distributed Systems SWE (WarpStream)
+
+The strongest-fit posting so far: WarpStream is a product already run in production
+here. The gap is build versus operate, so these are about internals rather than
+operations.
+
+#### Storage Engine Internals
+- Writing a storage engine rather than operating one: segment layout, write path, read path
+- Object storage as a primary store: S3/GCS consistency model, latency characteristics, multipart upload, range reads
+- Batching and buffering strategies when every write goes to object storage
+- Compaction implementation rather than compaction configuration
+- Caching layers in front of object storage; what to keep local when there is no local disk
+- Write-ahead logs, checkpointing, and crash recovery in a diskless design
+
+#### Kafka Protocol Implementation
+- The Kafka wire protocol: request/response framing, API versions, negotiation
+- Implementing broker-side protocol handlers rather than configuring a broker
+- Client compatibility: what breaks when a Kafka-compatible service diverges
+- Consumer group coordination protocol from the server side
+- Transactions and exactly-once: the producer ID, epoch fencing, transaction coordinator
+
+#### Distributed Systems Internals
+- Active-active multi-region clusters: conflict resolution, write routing, failover semantics
+- Multi-tenant control plane scalability: metadata sharding, per-tenant isolation, quota enforcement
+- Consensus in practice beyond operating it: Raft implementation details
+- Formal consistency models and how they constrain a design
+
+#### Algorithms and Systems Programming
+- Interview-level data structures and algorithms; the posting calls out algorithmic skill explicitly
+- Performance work at the network level: TCP tuning, zero-copy, syscall overhead
+- Profiling and optimizing Go: pprof, escape analysis, allocation reduction, GC pressure
+- C/C++ familiarity, listed as an acceptable primary language
+
+#### Product and Vendor Side
+- Building a commercial product for external customers rather than an internal platform
+- BYOC from the vendor side: what the vendor controls versus what runs in the customer account
+- Supporting customers across AWS, GCP, and Azure simultaneously
+- Shipping a developer console as a product surface rather than an internal portal
+
 ### Other
 - Web scraping (Selenium, etc)
