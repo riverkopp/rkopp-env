@@ -20,7 +20,7 @@ Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; followtheriversong@proto
 - **Streaming and Storage:** WarpStream, Apache Kafka, object storage (GCS), Confluent Schema Registry, Elasticsearch, compaction, partition reassignment, replication, consumer group lag, throughput and latency tuning
 - **Languages:** Go, Python, TypeScript, JavaScript, Java, Bash
 - **Cloud and Infrastructure:** GCP, Azure, Kubernetes, GKE, Docker, Helm, Terraform, VPC, DNS, IAM, GitHub Actions, CI/CD
-- **Operations:** 24x7 on-call, incident response, root cause analysis, SLA thresholds, Prometheus, Thanos, Grafana, PromQL, PagerDuty, runbooks
+- **Operations:** on-call rotation, incident response, root cause analysis, SLA thresholds, Prometheus, Thanos, Grafana, PromQL, PagerDuty, runbooks
 - **Security and Frontend:** mTLS, PKI, certificate authority management, KMS, HashiCorp Vault; React, NextJS, self-service developer portals
 
 ---
@@ -35,17 +35,17 @@ Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; followtheriversong@proto
 ##### Lead Software Engineer - Optum, UnitedHealth Group
 *May 2026 - Jul 2026* &nbsp;|&nbsp; Saint Paul, MN
 
-- Promoted to Lead to take WarpStream from beta to a supported production service. Owned the Go operator I wrote from scratch, all Terraform infrastructure (GCS, VPC, DNS, IAM), self-service provisioning integration, and observability. WarpStream's diskless, object-storage-backed architecture removes local disk I/O from the data path, projected to cut annual Kafka infrastructure costs by approximately 80% for the platform's two largest GCP customers. Authored the runbooks the team operates it from today.
+- Promoted to Lead to take WarpStream from beta to a supported production service. Owned the Go operator, all Terraform infrastructure (GCS, VPC, DNS, IAM), self-service provisioning integration, and observability. Delivered to the platform's two largest GCP customers, projected to cut their annual Kafka infrastructure costs by approximately 80%. Authored the runbooks and knowledge-transfer documentation for the handoff to the team.
 
 ##### Senior Software Engineer - Optum, UnitedHealth Group
 *Sep 2022 - May 2026* &nbsp;|&nbsp; Saint Paul, MN
 
-- Primary technical owner of a multi-tenant Apache Kafka platform: 4,000+ brokers across 800+ clusters, 100 billion+ messages per day, five-nines availability, and zero customer data loss over the platform's history. Wrote and extended its two-tier control plane of Go operators, with Elasticsearch as the shared state store for full state recovery if either layer failed.
-- Co-led an 8-week sprint delivering WarpStream cluster provisioning across the full stack: provisioning API changes, operator extensions for net-new resource kinds, and a net-new Go operator connecting Agents to Cloud Storage buckets, WarpStream API registrations, and Agent configs. Shipped as beta to the platform's two largest GCP customers.
+- Primary technical owner of a multi-tenant Apache Kafka platform: 4,000+ brokers across 800+ clusters, 100 billion+ messages per day, five-nines reliability, and zero customer data loss over the platform's history. Built on a two-tier control plane of custom Go operators and CRDs, with Elasticsearch as the shared state store guaranteeing full state recovery if either layer failed.
+- Co-led an 8-week sprint delivering WarpStream cluster provisioning across the full stack. The platform provisions everything through custom operators rather than Helm installs, so in place of the vendor Helm chart, wrote a net-new Go operator that works with the WarpStream APIs directly, connecting Agents to Cloud Storage buckets, API registrations, and Agent configs, alongside provisioning API changes and operator extensions for net-new resource kinds. Shipped as beta to the platform's two largest GCP customers.
 - Solely designed and ran the WarpStream vs Apache Kafka benchmark in GKE that drove the investment: built the environment from scratch, rebuilt the methodology (consumer load, end-to-end latency, Agent autoscaling) after first results were challenged, and presented findings to Confluent engineering and Optum leadership.
 - Owned broker-level operations and performance at scale: compaction configuration, partition reassignment, rolling restarts, consumer group lag, throughput and latency tuning, and regularly exercised disaster recovery. Maintained the platform's certificate authority, generating and rotating thousands of mTLS client certificates, plus VPC network security and DNS for broker endpoints.
-- On-call across the full 4,000+ broker fleet; extended Prometheus, Thanos, and Grafana with Go monitoring controllers and PromQL dashboards, defined utilization thresholds aligned to customer-facing SLAs, and led incident response and root cause analysis.
-- Lead engineer and product owner of the self-service Kafka developer portal (TypeScript, React, NextJS); captained a team of 6, wrote user stories, conducted code reviews, and mentored engineers on distributed systems, Go, and operator patterns.
+- Took regular on-call shifts for the platform; extended Prometheus, Thanos, and Grafana with Go monitoring controllers and PromQL dashboards, defined utilization thresholds aligned to customer-facing SLAs, and led incident response and root cause analysis.
+- Lead engineer and de facto product owner of the self-service Kafka developer portal (TypeScript, React, NextJS); captained a team of 6, wrote user stories, conducted code reviews, and mentored engineers on distributed systems, Go, and operator patterns.
 
 ##### Software Engineer - Optum, UnitedHealth Group
 *Jun 2020 - Aug 2022* &nbsp;|&nbsp; Saint Paul, MN
@@ -56,4 +56,4 @@ Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; followtheriversong@proto
 
 #### Education and Certifications
 
-B.S. Software Engineering, St. Cloud State University, GPA 3.79 &nbsp;|&nbsp; Google Cloud Digital Leader (2025) &nbsp;|&nbsp; [IEEE publication](https://ieeexplore.ieee.org/document/9659615)
+B.S. Software Engineering, St. Cloud State University, GPA 3.79 &nbsp;|&nbsp; Google Cloud Digital Leader (2025) &nbsp;|&nbsp; Optum AI Dojo: RAG system in Python (2025) &nbsp;|&nbsp; [IEEE publication](https://ieeexplore.ieee.org/document/9659615)
