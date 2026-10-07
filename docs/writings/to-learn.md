@@ -427,5 +427,49 @@
 - OCI Streaming service architecture and its managed Kafka offering
 - OCI networking, IAM, and tenancy model
 
+### Gaps - Confluent Distributed Systems Software Engineer, WarpStream (IBM Job ID 132722)
+
+#### WarpStream Internals (building the product, not deploying it)
+- Agent internals: how a stateless Go Agent serves produce and fetch for any partition, acts as group coordinator, and batches writes into object storage files
+- Cloud Metadata Store: what it sequences (offsets, file manifests, consumer group state), and how it stays consistent and available per virtual cluster
+- Agent roles assigned by the control plane: compaction, the distributed zone-aware object storage cache, and retention cleanup scans
+- Latency tradeoffs of object storage writes: batching windows, flush intervals, and why produce latency differs from disk-backed Kafka
+- Read the WarpStream docs and engineering blog end to end with the operator I wrote as the reference point for what I have and have not touched
+
+#### Storage Engine Design on Object Storage
+- Log-structured storage on immutable objects: file formats, per-partition indexes inside multi-partition files, and file compaction
+- LSM tree concepts as applied to object storage (levels, write amplification, compaction scheduling)
+- Object storage semantics across clouds: S3, GCS, and Azure Blob consistency guarantees, conditional writes, request pricing, and rate limits
+- Caching layers in front of object storage: hit ratios, cache placement per availability zone, and inter-zone network cost avoidance
+
+#### Kafka Wire Protocol (implementing it, not consuming it)
+- Kafka protocol request/response framing, API versioning, and version negotiation (ApiVersions)
+- Implementing a Kafka-compatible server: Produce, Fetch, Metadata, FindCoordinator, JoinGroup/SyncGroup semantics
+- Record batch format v2, compression codecs, and idempotent producer sequence numbers
+- Low-level network programming in Go: connection handling, buffer management, and profiling throughput on the hot path
+
+#### Transactions and Exactly-Once Semantics (named as a feature the team is building)
+- Transaction coordinator, transactional.id, producer epochs and fencing (see also Kafka Internals above)
+- Transaction markers, read_committed isolation, and the last stable offset
+- How transactions map onto a system with no partition leaders and a central metadata store
+
+#### Active-Active Multi-Region Clusters
+- Multi-region replication designs: active-passive vs active-active, and offset translation between regions
+- Conflict handling and ordering guarantees across regions; what Kafka semantics can and cannot be preserved
+- Existing approaches to compare against: MirrorMaker 2, Confluent Cluster Linking, and object storage cross-region replication
+
+#### AWS and Azure as First-Class Targets (see also BeyondTrust, Staff Go Engineer, and limitless AWS gaps)
+- S3 at depth: request patterns, throttling and prefix partitioning, S3 Express One Zone, lifecycle policies
+- Azure Blob Storage for the same workloads; Azure work to date was VM ScaleSets, not storage
+- Building and testing one service across three cloud providers' storage and IAM models
+
+#### BYOC from the Vendor Side (see also limitless BYOC gaps)
+- Shipping software that runs in customer accounts: upgrade compatibility across Agent versions, telemetry that leaves the customer account, and support without direct access
+- Multi-tenant control plane scaling for external customers rather than internal tenants
+
+#### Algorithmic Interview Prep (named directly: "strong programming and algorithmic skills")
+- See Data Structures and Algorithms above; prioritize before applying
+- Go concurrency internals for systems interviews: scheduler, channels vs mutexes, memory model (see Languages above)
+
 ### Other
 - Web scraping (Selenium, etc)
