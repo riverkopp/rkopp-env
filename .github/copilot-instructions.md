@@ -213,6 +213,8 @@ Always start at Small margins (6mm/12mm). Regenerate and recheck the page count 
 ### PDF Delivery
 When generating resumes or cover letters in a Claude Code chat session, always send the generated PDF to the user in the chat after generation using the SendUserFile tool.
 
+After committing and pushing generated or updated resume documents, open a pull request against `main` by default without waiting to be asked.
+
 ### Known Resume Constraints
 - All resumes for roles should fit on one page. If content exceeds one page, apply the compression tactics in the specified order. The Masters can exceed one page, but all submitted/prospective resumes should be one page.
 - When page count matters, prefer reliable local verification methods over Spotlight metadata.
