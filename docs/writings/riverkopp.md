@@ -1,8 +1,8 @@
-## Howdy, I'm Caleb
+## Howdy, I'm River
 
-Senior Platform Engineer at Optum, where I help keep healthcare data streaming at scale.
+Principal Site Reliability Developer at Oracle, doing federal contract work on enterprise Big Data Service.
 
-I'm one of the deepest technical owners of a Kafka-as-a-Service platform: 1,000+ production nodes, 750+ clusters, five-nines reliability, zero customer data loss. I build the full stack - from Kubernetes operators in Go to self-service React UIs that let developers provision production-grade streaming infrastructure in minutes.
+Previously one of the deepest technical owners of a Kafka-as-a-Service platform: 4,000+ brokers, 800+ clusters, 100 billion+ messages per day, five-nines reliability, zero customer data loss. I build the full stack - from Kubernetes operators in Go to self-service React UIs that let developers provision production-grade streaming infrastructure in minutes.
 
 ---
 
@@ -21,13 +21,13 @@ I'm one of the deepest technical owners of a Kafka-as-a-Service platform: 1,000+
 - Building platforms that make the health system work better for everyone
 - Making infrastructure self-service so engineers can ship faster
 - Mentoring early-career engineers and making tech more accessible
-- Writing code every day - I'm a senior engineer who still ships production code daily
+- Writing code every day - I'm a principal engineer who still ships production code daily
 
 ---
 
 #### Right now
 
-- Working on cutting Kafka infrastructure costs by ~80% with Warpstream's diskless architecture
+- Federal contract work on enterprise Oracle Big Data Service
 - Open to collaborating on developer experience tooling, streaming infrastructure, or digital transformation initiatives
 
 ---
@@ -35,6 +35,7 @@ I'm one of the deepest technical owners of a Kafka-as-a-Service platform: 1,000+
 #### Ask me about
 
 - Running Kafka at enterprise scale without losing a single byte of customer data
+- Cutting Kafka infrastructure costs by ~80% with Warpstream's diskless architecture
 - Building self-service developer portals that engineers actually want to use
 - Migrating from on-prem to GCP (and why we chose it over Azure)
 
@@ -48,7 +49,7 @@ I'm one of the deepest technical owners of a Kafka-as-a-Service platform: 1,000+
 
 
 <!--
-**CalebmKopp/calebmkopp** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**riverkopp/riverkopp** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
 
