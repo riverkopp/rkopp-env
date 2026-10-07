@@ -65,7 +65,8 @@ If the page is still marginally over after all of the above and every remaining 
 - The Lead title was held briefly (May 2026 - Jul 2026). Tailored resumes may present the Optum tenure as a single Senior Software Engineer entry (Sep 2022 - Jul 2026) when a simpler timeline reads better, or break Lead out separately when the WarpStream ownership story is worth the space.
 - Accuracy calibrations from the Confluent WarpStream review (Oct 2026):
   - On-call was 12-hour shifts every few weeks, handed off to a teammate in India. Do not write "24x7 on-call."
-  - Product ownership of the Kafka developer portal was de facto, filling in for a passive product owner. Do not call it a formal product owner title.
+  - Product ownership of the Kafka developer portal was de facto, filling in for a passive product owner. "Lead engineer and product owner" is fine; no need to say "de facto."
+  - Do not frame the WarpStream operator or offering as beta. Only beta customers existed before the departure, but it now runs production workloads, so leave beta status out.
   - No disaster recovery work in Azure. Azure experience is the VM ScaleSets work in the SE role.
   - Do not list Cassandra as a skill.
   - WarpStream ships an official Helm chart. The custom operator exists because the platform provisions through custom operators, not Helm installs. Never say WarpStream has no deployment tooling.
