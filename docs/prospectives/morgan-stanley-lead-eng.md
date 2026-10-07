@@ -7,9 +7,9 @@ pdf_options:
     right: 12mm
 ---
 
-### Caleb Kopp - Lead Software Engineer
+### River Kopp - Lead Software Engineer
 
-Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; caleb.m.kopp@outlook.com &nbsp;|&nbsp; linkedin.com/in/calebmkopp
+Saint Paul, MN &nbsp;|&nbsp; 507-299-0445 &nbsp;|&nbsp; followtheriversong@proton.me &nbsp;|&nbsp; linkedin.com/in/rivermkopp
 
 ---
 
