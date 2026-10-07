@@ -6,7 +6,7 @@ The past seven (!) years have been an incredible place to land after college, gr
 
 If you have any questions, please reach out to me! I wish the best of luck to each and every one of you, and am sad but grateful for your collaboration and support over these many years (no matter how large or small).
 
-https://www.linkedin.com/in/calebmkopp/overlay/contact-info/
+https://www.linkedin.com/in/rivermkopp/overlay/contact-info/
 If you’d be so kind, please keep in contact. And if you want, leave an endorsement on LinkedIn.
 
 ---------------------------------

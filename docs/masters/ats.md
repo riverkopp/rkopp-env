@@ -7,9 +7,9 @@ pdf_options:
     right: 15mm
 ---
 
-# Caleb Kopp
+# River Kopp
 
-Saint Paul, MN | 507-299-0445 | followtheriversong@proton.me | [linkedin.com/in/calebmkopp](linkedin.com/in/calebmkopp)
+Saint Paul, MN | 507-299-0445 | followtheriversong@proton.me | [linkedin.com/in/rivermkopp](linkedin.com/in/rivermkopp)
 
 ---
 

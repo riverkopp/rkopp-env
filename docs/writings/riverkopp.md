@@ -1,8 +1,8 @@
-## Howdy, I'm Caleb
+## Howdy, I'm River
 
-Senior Platform Engineer at Optum, where I help keep healthcare data streaming at scale.
+Principal Site Reliability Developer at Oracle, doing federal contract work on enterprise Big Data Service.
 
-I'm one of the deepest technical owners of a Kafka-as-a-Service platform: 1,000+ production nodes, 750+ clusters, five-nines reliability, zero customer data loss. I build the full stack - from Kubernetes operators in Go to self-service React UIs that let developers provision production-grade streaming infrastructure in minutes.
+Previously one of the deepest technical owners of a Kafka-as-a-Service platform: 4,000+ brokers, 800+ clusters, 100 billion+ messages per day, five-nines reliability, zero customer data loss. I build the full stack - from Kubernetes operators in Go to self-service React UIs that let developers provision production-grade streaming infrastructure in minutes.
 
 ---
 
@@ -48,7 +48,7 @@ I'm one of the deepest technical owners of a Kafka-as-a-Service platform: 1,000+
 
 
 <!--
-**CalebmKopp/calebmkopp** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**riverkopp/riverkopp** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
 

@@ -7,10 +7,10 @@ pdf_options:
     right: 15mm
 ---
 
-# Caleb Kopp
+# River Kopp
 **Senior Software Engineer &middot; Kafka & Kubernetes Infrastructure**
 
-Saint Paul, MN &nbsp;&nbsp;|&nbsp;&nbsp; 507-299-0445 &nbsp;&nbsp;|&nbsp;&nbsp; followtheriversong@proton.me &nbsp;&nbsp;|&nbsp;&nbsp; linkedin.com/in/calebmkopp &nbsp;&nbsp;|&nbsp;&nbsp; Open to remote
+Saint Paul, MN &nbsp;&nbsp;|&nbsp;&nbsp; 507-299-0445 &nbsp;&nbsp;|&nbsp;&nbsp; followtheriversong@proton.me &nbsp;&nbsp;|&nbsp;&nbsp; linkedin.com/in/rivermkopp &nbsp;&nbsp;|&nbsp;&nbsp; Open to remote
 
 ---
 
