@@ -21,3 +21,7 @@ brew "tailscale"
 brew "tailcat"
 # Software for Logitech devices
 cask "logi-options+"
+# Terminal-based AI coding assistant
+cask "claude-code@latest"
+# Remote access and connectivity software focused on security
+cask "teamviewer"
